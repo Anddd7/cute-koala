@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author edliao on 2017/6/15.
- * @description SocketTest
+ * @description IO Socket
  */
 @Slf4j
 public class SocketServer extends LocalComputer {

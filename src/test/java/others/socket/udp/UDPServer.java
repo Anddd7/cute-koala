@@ -1,6 +1,6 @@
-package github.koala.core.socket.udp;
+package others.socket.udp;
 
-import github.koala.core.socket.LocalComputer;
+import others.socket.LocalComputer;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;

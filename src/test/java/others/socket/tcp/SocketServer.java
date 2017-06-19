@@ -1,7 +1,7 @@
-package github.koala.core.socket.tcp;
+package others.socket.tcp;
 
 import com.google.common.collect.Lists;
-import github.koala.core.socket.LocalComputer;
+import others.socket.LocalComputer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

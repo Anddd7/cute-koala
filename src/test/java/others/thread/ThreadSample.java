@@ -1,4 +1,4 @@
-package github.koala.core.thread;
+package others.thread;
 
 import com.google.common.collect.Lists;
 import java.time.Duration;
@@ -11,13 +11,14 @@ import lombok.extern.slf4j.Slf4j;
  * @description 线程池
  */
 @Slf4j
-public class ThreadGroup {
+public class ThreadSample {
 
-  //守护进程 计时
+  //守护进程 : 不阻止程序的退出 ,非守护进程会一直运行
   static class Timer extends Thread {
 
     public Timer() {
-      this.setDaemon(true);//守护线程
+
+      this.setDaemon(true);
     }
 
     @Override
@@ -116,6 +117,5 @@ public class ThreadGroup {
 
     log.info("公布成绩~");
     commander.print();
-
   }
 }

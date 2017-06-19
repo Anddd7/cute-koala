@@ -1,6 +1,6 @@
-package github.koala.core.socket.tcp;
+package others.socket.tcp;
 
-import github.koala.core.socket.LocalComputer;
+import others.socket.LocalComputer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;

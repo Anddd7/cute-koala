@@ -1,4 +1,4 @@
-package github.koala.core.socket;
+package others.socket;
 
 import java.io.IOException;
 

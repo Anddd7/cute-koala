@@ -3,7 +3,8 @@ package com.koala;
 import com.koala.services.UserService;
 import com.koala.utils.RandomTool;
 import github.koala.core.annotation.Module;
-import github.koala.core.annotation.NoSingleton;
+import github.koala.core.annotation.Scope;
+import github.koala.core.annotation.Scope.ScopeEnum;
 
 /**
  * @author edliao on 2017/6/19.
@@ -12,8 +13,9 @@ import github.koala.core.annotation.NoSingleton;
 @Module
 public class UserModule {
 
+  @Scope
   UserService userService;
 
-  @NoSingleton
+  @Scope(type = ScopeEnum.NOSCOPE)
   RandomTool randomTool;
 }

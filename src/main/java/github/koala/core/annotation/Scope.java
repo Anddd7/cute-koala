@@ -7,12 +7,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author edliao on 2017/6/19.
- * @description 非单例标识
+ * @author edliao on 2017/6/20.
+ * @description 作用域
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface NoSingleton {
+public @interface Scope {
 
+  enum ScopeEnum {
+    SINGLETON, NOSCOPE
+  }
+
+  ScopeEnum type() default ScopeEnum.SINGLETON;
 }

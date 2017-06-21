@@ -1,6 +1,7 @@
 package github.koala.core;
 
 import com.koala.UserModule;
+import com.koala.daos.UserDao;
 import com.koala.services.UserService;
 import com.koala.utils.RandomTool;
 import github.koala.core.factory.BeanFactory;
@@ -29,6 +30,22 @@ public class BeanFactoryTest {
     System.out.println(randomTool2.nextInteger().getIntValue());
     Assert.assertNotEquals(randomTool1, randomTool2);
 
+  }
+
+  @Test
+  public void multiTest() {
+    BeanFactory beanFactory = BeanFactory.of(UserModule.class);
+    UserDao userDao = beanFactory.getBean(UserDao.class);
+    UserDao userDao1 = beanFactory.getBean(RandomTool.class).getUserDao();
+    UserDao userDao2 = beanFactory.getBean(UserService.class).getUserDao();
+
+    System.out.println(userDao.getName()+"|"+userDao1.getName()+"|"+userDao2.getName());
+
+    System.out.println(userDao+"|"+userDao1+"|"+userDao2);
+
+    Assert.assertEquals(userDao,userDao1);
+    Assert.assertEquals(userDao1,userDao2);
+    Assert.assertEquals(userDao,userDao2);
   }
 
 }

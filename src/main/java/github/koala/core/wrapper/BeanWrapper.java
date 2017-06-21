@@ -1,5 +1,6 @@
-package github.koala.core.scope;
+package github.koala.core.wrapper;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -7,17 +8,13 @@ import lombok.Data;
  * @description Bean的统一外包装
  */
 @Data
+@AllArgsConstructor
 public class BeanWrapper {
 
   private Object object;
   private Boolean isSingleton;
 
-  private BeanWrapper(Object object, Boolean isSingleton) {
-    this.object = object;
-    this.isSingleton = isSingleton;
-  }
-
-  public static BeanWrapper get(Class classType, Boolean isSingleton) {
+  public static BeanWrapper of(Class classType, Boolean isSingleton) {
     if (isSingleton) {
       try {
         return new BeanWrapper(classType.newInstance(), isSingleton);

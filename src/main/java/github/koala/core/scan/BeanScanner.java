@@ -4,7 +4,6 @@ import github.koala.core.annotation.Module;
 import github.koala.core.annotation.Scope;
 import github.koala.core.annotation.Scope.ScopeEnum;
 import github.koala.core.pool.BeanPool;
-import github.koala.core.scope.BeanWrapper;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +53,7 @@ public class BeanScanner {
   private void createBean(String name, Class classType, Boolean isSingleton) {
     log.info("添加Bean到缓冲池[{}]", name);
     try {
-      BeanPool.addBean(name, classType, BeanWrapper.get(classType, isSingleton));
+      BeanPool.addBean(name, classType, isSingleton);
     } catch (Exception e) {
       e.printStackTrace();
     }

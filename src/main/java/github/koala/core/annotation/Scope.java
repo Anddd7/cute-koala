@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * @author edliao on 2017/6/20.
- * @description 作用域
+ * @description 描述Bean作用域 ,用于扫描
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

@@ -14,8 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BeanFactory {
 
-  List<Class> modules = Lists.newArrayList();
-  BeanScanner scanner = new BeanScanner();
+  private List<Class> modules = Lists.newArrayList();
+  private BeanScanner scanner = new BeanScanner();
+
 
   public BeanFactory(Class... modules) {
     this.modules.addAll(Arrays.asList(modules));
@@ -33,6 +34,4 @@ public class BeanFactory {
   public <T> T getBean(Class<T> classType) {
     return BeanPool.getBean(classType);
   }
-
-
 }

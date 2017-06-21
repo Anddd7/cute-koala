@@ -41,7 +41,7 @@ public class BeanScanner {
 
     log.info("扫描Bean,名称[{}],类型[{}],是否单例[{}]", name, classType.getName(), isSingleton);
 
-    createBean(name, classType, isSingleton);
+    createBean(classType, isSingleton);
 
     //递归扫描子模块
     scanModule(classType);
@@ -50,12 +50,12 @@ public class BeanScanner {
   /**
    * 循环创建bean和引用的bean
    */
-  private void createBean(String name, Class classType, Boolean isSingleton) {
-    log.info("添加Bean到缓冲池[{}]", name);
+  private void createBean(Class classType, Boolean isSingleton) {
+    log.info("添加Bean到缓冲池[{}]", classType.getSimpleName());
     try {
-      BeanPool.addBean(name, classType, isSingleton);
+      BeanPool.addBean(classType, isSingleton);
     } catch (Exception e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
   }
 }

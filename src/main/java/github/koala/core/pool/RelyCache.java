@@ -15,15 +15,15 @@ public class RelyCache {
 
   private ListMultimap<Class, BeanWrapper> cache;
 
-  public RelyCache() {
+   RelyCache() {
     cache = LinkedListMultimap.create();
   }
 
-  public List<BeanWrapper> get(Class classType) {
+   List<BeanWrapper> get(Class classType) {
     return cache.get(classType);
   }
 
-  public void put(Class classType, BeanWrapper beanWrapper) {
+   void put(Class classType, BeanWrapper beanWrapper) {
     log.info("[{}]依赖的[{}]还未加载,等待中", beanWrapper.getObject().getClass().getName(),
         classType.getName());
     cache.put(classType, beanWrapper);

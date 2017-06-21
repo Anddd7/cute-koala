@@ -10,20 +10,20 @@ import lombok.extern.slf4j.Slf4j;
  * @description Bean的缓冲池
  */
 @Slf4j
-public class BeanCache {
+class BeanCache {
 
   private Map<Class, BeanWrapper> cache;
 
-  public BeanCache() {
+  BeanCache() {
     this.cache = new ConcurrentHashMap<>();
   }
 
-  public BeanWrapper get(Class classType) {
+  BeanWrapper get(Class classType) {
     log.info("通过类型[{}],获取Bean", classType.getName());
     return cache.get(classType);
   }
 
-  public BeanWrapper put(Class classType, BeanWrapper beanWrapper) {
-    return cache.putIfAbsent(classType, beanWrapper);
+  void put(Class classType, BeanWrapper beanWrapper) {
+    cache.putIfAbsent(classType, beanWrapper);
   }
 }

@@ -15,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BeanPool {
 
+  private BeanPool() {
+  }
+
   private static final BeanCache beanCache = new BeanCache();
   private static final RelyCache relyCache = new RelyCache();
 
@@ -38,9 +41,9 @@ public class BeanPool {
 
       return instance;
     } catch (InstantiationException e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
     return null;
   }
@@ -48,8 +51,7 @@ public class BeanPool {
   /**
    * 添加Bean对象
    */
-  public static void addBean(String name, Class classType, Boolean isSingleton)
-      throws Exception {
+  public static void addBean(Class classType, Boolean isSingleton) {
     BeanWrapper beanWrapper = beanCache.get(classType);
     if (Objects.isNull(beanWrapper)) {
       //创建新的bean放入cache
@@ -108,9 +110,9 @@ public class BeanPool {
         try {
           instance = ((Class) instance).newInstance();
         } catch (InstantiationException e) {
-          e.printStackTrace();
+          log.error(e.getMessage(), e);
         } catch (IllegalAccessException e) {
-          e.printStackTrace();
+          log.error(e.getMessage(), e);
         }
       }
       Object parent = parentBeanWrapper.getObject();
@@ -131,7 +133,7 @@ public class BeanPool {
       field.setAccessible(true);
       field.set(parent, instance);
     } catch (IllegalAccessException e) {
-      e.printStackTrace();
+      log.error(e.getMessage(), e);
     }
   }
 

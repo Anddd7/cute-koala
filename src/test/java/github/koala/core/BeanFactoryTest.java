@@ -5,6 +5,7 @@ import com.koala.daos.UserDao;
 import com.koala.services.UserService;
 import com.koala.utils.RandomTool;
 import github.koala.core.factory.BeanFactory;
+import github.koala.core.scan.BeanScanner;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,6 +15,12 @@ import org.junit.Test;
  */
 public class BeanFactoryTest {
 
+  @Test
+  public void scanTest() {
+    BeanScanner scanner = new BeanScanner();
+    scanner.scanModule(UserModule.class);
+  }
+  
   @Test
   public void factoryTest() {
     BeanFactory beanFactory = new BeanFactory(UserModule.class).build();

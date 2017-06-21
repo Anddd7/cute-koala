@@ -3,6 +3,8 @@ package github.koala.core.factory;
 import com.google.common.collect.Lists;
 import github.koala.core.pool.BeanPool;
 import github.koala.core.scan.BeanScanner;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +29,10 @@ public class BeanFactory {
   }
 
   public BeanFactory build() {
+    Instant start = Instant.now();
+    log.info("Factory启动~\n----------------------------------------------");
     scanner.scanModules(modules);
+    log.info("Factory加载完毕,耗时[{}]\n----------------------------------------------", Duration.between(start, Instant.now()));
     return this;
   }
 

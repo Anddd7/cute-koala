@@ -7,17 +7,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * @author edliao on 2017/6/20.
- * @description 描述Bean作用域 ,用于扫描
+ * @author edliao on 2017/6/21.
+ * @description 远程调用的方法
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Scope {
+@Target(ElementType.METHOD)
+public @interface HttpKoalaMethod {
 
-  enum ScopeEnum {
-    SINGLETON, NOSCOPE
+  String value();
+
+  Request type() default Request.GET;
+
+  enum Request {
+    POST, GET
   }
-
-  ScopeEnum type() default ScopeEnum.SINGLETON;
 }

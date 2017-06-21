@@ -1,6 +1,8 @@
 package github.koala.core.pool;
 
-import github.koala.core.annotation.Scope;
+import github.koala.core.annotation.HttpKoala;
+import github.koala.core.annotation.Koala;
+import github.koala.core.rpc.HttpHandler;
 import github.koala.core.wrapper.BeanWrapper;
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -32,6 +34,12 @@ public class BeanPool {
     }
     try {
       log.info("当前Bean是非单例的,创建新的对象.");
+
+      //如果是远程代理的Bean ,直接生成远程代理
+      if (classType.isInterface() && !Objects.isNull(classType.getAnnotation(HttpKoala.class))) {
+        return (T)HttpHandler.getProxyObject(classType);
+      }
+
       T instance = ((Class<T>) scope.getObject()).newInstance();
 
       //创建对象时查看内部是否有依赖关系 ,有则set到instance里
@@ -79,7 +87,7 @@ public class BeanPool {
       BiConsumer<BeanWrapper, Field> biConsumer) {
     log.info("[{}]正在加载 ,检查是否依赖其他对象", classType.getName());
     Arrays.asList(classType.getDeclaredFields()).forEach(field -> {
-      if (!Objects.isNull(field.getAnnotation(Scope.class))) {
+      if (!Objects.isNull(field.getAnnotation(Koala.class))) {
         biConsumer.accept(beanWrapper, field);
       }
     });
@@ -136,5 +144,4 @@ public class BeanPool {
       log.error(e.getMessage(), e);
     }
   }
-
 }

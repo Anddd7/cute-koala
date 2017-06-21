@@ -2,9 +2,9 @@ package com.koala.services;
 
 import com.koala.daos.UserDao;
 import com.koala.utils.RandomTool;
+import github.koala.core.annotation.Koala;
+import github.koala.core.annotation.Koala.ScopeEnum;
 import github.koala.core.annotation.Module;
-import github.koala.core.annotation.Scope;
-import github.koala.core.annotation.Scope.ScopeEnum;
 import lombok.Data;
 
 /**
@@ -15,10 +15,10 @@ import lombok.Data;
 @Data
 public class UserService {
 
-  @Scope
+  @Koala
   UserDao userDao;
 
-  @Scope(type = ScopeEnum.NOSCOPE)
+  @Koala(ScopeEnum.NOSCOPE)
   RandomTool randomTool;
 
   public void welcome() {

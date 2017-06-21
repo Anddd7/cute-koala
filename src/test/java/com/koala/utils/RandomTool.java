@@ -2,7 +2,7 @@ package com.koala.utils;
 
 import com.koala.daos.UserDao;
 import github.koala.core.annotation.Module;
-import github.koala.core.annotation.Scope;
+import github.koala.core.annotation.Koala;
 import java.util.Date;
 import java.util.Random;
 import lombok.Data;
@@ -18,7 +18,7 @@ public class RandomTool {
   Integer intValue;
   Random r;
 
-  @Scope
+  @Koala
   UserDao userDao;
 
   public RandomTool() {

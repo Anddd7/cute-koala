@@ -18,6 +18,8 @@
     <guava.v>RELEASE</guava.v>
     <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
     <lombok.v>RELEASE</lombok.v>
+    <okhttp.v>3.8.0</okhttp.v>
+    <fastjson.v>1.2.33</fastjson.v>
   </properties>
 
   <dependencies>
@@ -28,17 +30,28 @@
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.v}</version>
-      <scope>test</scope>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>${okhttp.v}</version>
     </dependency>
 
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>${fastjson.v}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>${slf4j-log4j12.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.v}</version>
+      <scope>test</scope>
     </dependency>
 
     <dependency>

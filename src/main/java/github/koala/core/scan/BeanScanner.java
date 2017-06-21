@@ -1,9 +1,11 @@
 package github.koala.core.scan;
 
+import github.koala.core.annotation.HttpKoala;
+import github.koala.core.annotation.Koala;
+import github.koala.core.annotation.Koala.ScopeEnum;
 import github.koala.core.annotation.Module;
-import github.koala.core.annotation.Scope;
-import github.koala.core.annotation.Scope.ScopeEnum;
 import github.koala.core.pool.BeanPool;
+import github.koala.core.rpc.HttpHandler;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -31,11 +33,11 @@ public class BeanScanner {
   }
 
   private void scanModuleField(Field field) {
-    if (Objects.isNull(field.getAnnotation(Scope.class))) {
+    if (Objects.isNull(field.getAnnotation(Koala.class))) {
       return;
     }
 
-    Boolean isSingleton = field.getAnnotation(Scope.class).type().equals(ScopeEnum.SINGLETON);
+    Boolean isSingleton = field.getAnnotation(Koala.class).value().equals(ScopeEnum.SINGLETON);
     Class classType = field.getType();
     String name = field.getName();
 
@@ -51,6 +53,15 @@ public class BeanScanner {
    * 循环创建bean和引用的bean
    */
   private void createBean(Class classType, Boolean isSingleton) {
+    log.info("添加Bean到缓冲池[{}]", classType.getSimpleName());
+    try {
+      BeanPool.addBean(classType, isSingleton);
+    } catch (Exception e) {
+      log.error(e.getMessage(), e);
+    }
+  }
+
+  private void createRemoteBean(Class classType, Boolean isSingleton) {
     log.info("添加Bean到缓冲池[{}]", classType.getSimpleName());
     try {
       BeanPool.addBean(classType, isSingleton);

@@ -17,9 +17,9 @@ public @interface HttpKoalaMethod {
 
   String value();
 
-  Request type() default Request.GET;
+  HttpMethod httpMethod() default HttpMethod.GET;
 
-  enum Request {
+  enum HttpMethod {
     POST, GET
   }
 }

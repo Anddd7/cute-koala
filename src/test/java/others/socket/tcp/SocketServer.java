@@ -1,7 +1,6 @@
 package others.socket.tcp;
 
 import com.google.common.collect.Lists;
-import others.socket.LocalComputer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +11,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import lombok.extern.slf4j.Slf4j;
+import others.socket.LocalComputer;
 
 /**
  * @author edliao on 2017/6/15.

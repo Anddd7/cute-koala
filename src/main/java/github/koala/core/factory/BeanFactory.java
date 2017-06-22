@@ -1,15 +1,14 @@
 package github.koala.core.factory;
 
-import com.google.common.collect.Lists;
-import github.koala.core.annotation.HttpKoala;
-import github.koala.core.pool.BeanPool;
-import github.koala.core.rpc.HttpHandler;
-import github.koala.core.scan.BeanScanner;
+import github.koala.core.wrapper.BeanWrapper;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -19,28 +18,70 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BeanFactory {
 
-  private List<Class> modules = Lists.newArrayList();
+  @Getter
+  private List<Class> moduleClasses = new ArrayList<>();
+
+  private Map<Class, BeanModule> moduleMap = new HashMap<>();
   private BeanScanner scanner = new BeanScanner();
-
-
-  public BeanFactory(Class... modules) {
-    this.modules.addAll(Arrays.asList(modules));
-  }
+  private BeanModule currentModule;
 
   public static BeanFactory of(Class... modules) {
     return new BeanFactory(modules).build();
   }
 
-  public BeanFactory build() {
+  private BeanFactory(Class... moduleClasses) {
+    this.moduleClasses = Arrays.asList(moduleClasses);
+  }
+
+  /**
+   * 构建
+   */
+  private BeanFactory build() {
     Instant start = Instant.now();
-    log.info("Factory启动~\n----------------------------------------------");
-    scanner.scanModules(modules);
-    log.info("Factory加载完毕,耗时[{}]\n----------------------------------------------",
-        Duration.between(start, Instant.now()));
+    log.info("----------------------------------------------");
+    log.info("Factory启动~");
+
+    scanAndBuild();
+
+    log.info("Factory加载完毕,耗时[{}]ms", Duration.between(start, Instant.now()).toMillis());
+    log.info("----------------------------------------------\n");
     return this;
   }
 
-  public <T> T getBean(Class<T> classType) {
-    return BeanPool.getBean(classType);
+  /**
+   * 扫描器扫描并生成 module ,默认设置第一个module为当前的操作module
+   */
+  private void scanAndBuild() {
+    for (Class moduleClass : moduleClasses) {
+      scanner.createModule(moduleClass)
+          .ifPresent(beanModule -> {
+            moduleMap.put(moduleClass, beanModule);
+            if (currentModule == null) {
+              currentModule = beanModule;
+            }
+          });
+    }
   }
+
+  /**
+   * 对外的唯一入口方法
+   */
+  public <T> T getBean(Class<T> classType) {
+    return currentModule.getBean(classType);
+  }
+
+  /**
+   * TODO 测试方法
+   */
+  public Map<Class, BeanWrapper> getCache4Test() {
+    return currentModule.getCache4Test();
+  }
+
+  /**
+   * 切换当前运转的module
+   */
+  public void setCurrentModule(Class moduleClass) {
+    currentModule = moduleMap.get(moduleClass);
+  }
+
 }

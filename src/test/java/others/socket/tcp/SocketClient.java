@@ -1,12 +1,12 @@
 package others.socket.tcp;
 
-import others.socket.LocalComputer;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import lombok.extern.slf4j.Slf4j;
+import others.socket.LocalComputer;
 
 /**
  * @author edliao on 2017/6/15.

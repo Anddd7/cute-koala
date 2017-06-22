@@ -1,24 +1,21 @@
 package com.koala.utils;
 
 import com.koala.daos.UserDao;
-import github.koala.core.annotation.Module;
+import com.koala.daos.impl.UserDaoImpl;
 import github.koala.core.annotation.Koala;
 import java.util.Date;
 import java.util.Random;
-import lombok.Data;
 
 /**
  * @author edliao on 2017/6/19.
  * @description 测试
  */
-@Data
-@Module
 public class RandomTool {
 
   Integer intValue;
   Random r;
 
-  @Koala
+  @Koala( UserDaoImpl.class)
   UserDao userDao;
 
   public RandomTool() {
@@ -32,5 +29,9 @@ public class RandomTool {
 
   public void printUser() {
     System.out.println(userDao.getName());
+  }
+
+  public UserDao getUserDao() {
+    return userDao;
   }
 }

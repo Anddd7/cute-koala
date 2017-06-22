@@ -1,12 +1,12 @@
-package com.koala.services.beans;
+package com.koala.beans;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author edliao on 2017/6/21.
- * @description 测试类
+ * @author edliao on 2017/6/22.
+ * @description TODO
  */
 @Data
 @AllArgsConstructor

@@ -15,9 +15,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Koala {
 
+  Class<?> value() default Koala.class;
+
+  ScopeEnum scope() default ScopeEnum.SINGLETON;
+
   enum ScopeEnum {
     SINGLETON, NOSCOPE
   }
-
-  ScopeEnum value() default ScopeEnum.SINGLETON;
 }

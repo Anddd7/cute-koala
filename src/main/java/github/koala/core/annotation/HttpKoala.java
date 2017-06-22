@@ -1,6 +1,7 @@
 package github.koala.core.annotation;
 
-import github.koala.core.rpc.JsonResponseParser;
+import github.koala.core.utils.impl.JsonRequestParser;
+import github.koala.core.utils.impl.JsonResponseParser;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -19,4 +20,6 @@ public @interface HttpKoala {
   String value();
 
   Class responseParser() default JsonResponseParser.class;
+
+  Class requestParser() default JsonRequestParser.class;
 }

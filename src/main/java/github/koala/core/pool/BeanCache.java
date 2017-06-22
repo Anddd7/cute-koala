@@ -12,18 +12,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 class BeanCache {
 
-  private Map<Class, BeanWrapper> cache;
+  private Map<Class, BeanWrapper> cache = new ConcurrentHashMap<>();
 
-  BeanCache() {
-    this.cache = new ConcurrentHashMap<>();
-  }
-
+  /**
+   * 获取Bean
+   */
   BeanWrapper get(Class classType) {
     log.info("通过类型[{}],获取Bean", classType.getName());
     return cache.get(classType);
   }
 
-  void put(Class classType, BeanWrapper beanWrapper) {
-    cache.putIfAbsent(classType, beanWrapper);
+  /**
+   * 添加Bean ,同时添加接口和实现类 ,方便通过接口添加的依赖
+   */
+  void put(BeanWrapper beanWrapper) {
+    cache.putIfAbsent(beanWrapper.getDefineType(), beanWrapper);
+    cache.putIfAbsent(beanWrapper.getImplementType(), beanWrapper);
+  }
+
+  /**
+   * 获取cacheMap
+   */
+  Map<Class, BeanWrapper> getCache4Test() {
+    return cache;
   }
 }

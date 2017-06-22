@@ -1,6 +1,5 @@
 package others.socket.tcp;
 
-import others.socket.LocalComputer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -10,6 +9,7 @@ import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import lombok.extern.slf4j.Slf4j;
+import others.socket.LocalComputer;
 
 /**
  * @author edliao on 2017/6/15.

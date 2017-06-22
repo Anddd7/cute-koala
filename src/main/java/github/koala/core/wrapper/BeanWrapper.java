@@ -1,9 +1,8 @@
 package github.koala.core.wrapper;
 
 import github.koala.core.annotation.HttpKoala;
-import github.koala.core.rpc.HttpHandler;
+import github.koala.core.rpc.HttpProxyHandler;
 import java.util.Objects;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,32 +11,56 @@ import lombok.extern.slf4j.Slf4j;
  * @description Bean的统一外包装
  */
 @Data
-@AllArgsConstructor
 @Slf4j
 public class BeanWrapper {
 
-  private Object object;
-  private Boolean isSingleton;
+  private Class defineType;//声明类型
+  private Class implementType;//实例类型
+  private Object instance;//实例对象
+  private Boolean singleton;
 
-  public static BeanWrapper of(Class classType, Boolean isSingleton) {
+  /**
+   * 创建新的Bean
+   */
+  public static BeanWrapper of(Class classType, Class implementType, Boolean isSingleton) {
+    log.info("!!!\t\t创建新Bean:{} - {}", classType.getSimpleName(), implementType.getName());
+    BeanWrapper beanWrapper = new BeanWrapper();
+    beanWrapper.setDefineType(classType);
+    beanWrapper.setImplementType(implementType);
+    beanWrapper.setSingleton(isSingleton);
+    beanWrapper.createInstance();
+    return beanWrapper;
+  }
+
+  /**
+   * 根据Bean的条件 创建instance
+   */
+  void createInstance() {
     try {
-      if (!isSingleton) {
-        return new BeanWrapper(classType, isSingleton);
+      if (!singleton) {
+        //非单例 ,object存放实现类型 ,getBean时自动实例化
+        instance = implementType;
+        return;
       }
-
-      if (classType.isInterface() && !Objects.isNull(classType.getAnnotation(HttpKoala.class))) {
-        return new BeanWrapper(HttpHandler.getProxyObject(classType), isSingleton);
+      //单例的代理接口 ,生成代理对象
+      if (!Objects.isNull(defineType.getAnnotation(HttpKoala.class))) {
+        instance = HttpProxyHandler.getProxyObject(defineType);
+        return;
       }
-
-      log.info("单例Bean ,直接创建Instance");
-      return new BeanWrapper(classType.newInstance(), isSingleton);
-
+      //单例的Class 或 接口 ,实现类直接实例化
+      instance = implementType.newInstance();
     } catch (InstantiationException e) {
       log.error(e.getMessage(), e);
     } catch (IllegalAccessException e) {
       log.error(e.getMessage(), e);
     }
-    return null;
   }
 
+  /**
+   * 对比2个bean定义是否有不同
+   */
+  public boolean checkConflict(BeanWrapper beanWrapper) {
+    return !implementType.getName().equals(beanWrapper.getImplementType().getName())
+        || !singleton.equals(beanWrapper.getSingleton());
+  }
 }

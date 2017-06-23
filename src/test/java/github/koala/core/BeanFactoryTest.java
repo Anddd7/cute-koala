@@ -71,4 +71,5 @@ public class BeanFactoryTest {
   void print(Class classType, Object object) {
     System.out.println(classType.getName() + "\t|\t" + object);
   }
+
 }

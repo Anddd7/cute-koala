@@ -3,7 +3,6 @@ package github.koala.core.factory;
 import github.koala.core.wrapper.BeanWrapper;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,29 +18,28 @@ import lombok.extern.slf4j.Slf4j;
 public class KoalaFactory {
 
   @Getter
-  private List<Class> moduleClasses = new ArrayList<>();
+  private List<Class> moduleList;
+  private int index;
 
   private Map<Class, KoalaModule> moduleMap = new HashMap<>();
   private ModuleScanner scanner = new ModuleScanner();
   private KoalaModule currentModule;
 
   public static KoalaFactory of(Class... modules) {
-    return new KoalaFactory(modules).build();
-  }
-
-  private KoalaFactory(Class... moduleClasses) {
-    this.moduleClasses = Arrays.asList(moduleClasses);
+    return new KoalaFactory().build(modules);
   }
 
   /**
    * 构建
    */
-  private KoalaFactory build() {
+  private KoalaFactory build(Class... moduleClasses) {
     Instant start = Instant.now();
     log.info("----------------------------------------------");
     log.info("Factory启动~");
 
-    scanAndBuild();
+    moduleList = Arrays.asList(moduleClasses);
+    scanAndBuild(moduleClasses);
+    first();
 
     log.info("Factory加载完毕,耗时[{}]ms", Duration.between(start, Instant.now()).toMillis());
     log.info("----------------------------------------------\n");
@@ -51,15 +49,10 @@ public class KoalaFactory {
   /**
    * 扫描器扫描并生成 module ,默认设置第一个module为当前的操作module
    */
-  private void scanAndBuild() {
+  private void scanAndBuild(Class... moduleClasses) {
     for (Class moduleClass : moduleClasses) {
       scanner.createModule(moduleClass)
-          .ifPresent(beanModule -> {
-            moduleMap.put(moduleClass, beanModule);
-            if (currentModule == null) {
-              currentModule = beanModule;
-            }
-          });
+          .ifPresent(beanModule -> moduleMap.put(moduleClass, beanModule));
     }
   }
 
@@ -80,8 +73,33 @@ public class KoalaFactory {
   /**
    * 切换当前运转的module
    */
-  public void setCurrentModule(Class moduleClass) {
+  public KoalaFactory setCurrentModule(Class moduleClass) {
     currentModule = moduleMap.get(moduleClass);
+    return this;
+  }
+
+  public void setCurrentModule(int inputIndex) {
+    if (inputIndex < 1 || inputIndex > moduleList.size()) {
+      log.error("需要切换的模块编号需要在1-{}之间", moduleList.size());
+      return;
+    }
+    setCurrentModule(moduleList.get(inputIndex - 1));
+  }
+
+  public KoalaFactory first() {
+    index = 1;
+    setCurrentModule(index);
+    return this;
+  }
+
+  public KoalaFactory nextModule() {
+    setCurrentModule(++index);
+    return this;
+  }
+
+  public KoalaFactory previousModule() {
+    setCurrentModule(--index);
+    return this;
   }
 
 }

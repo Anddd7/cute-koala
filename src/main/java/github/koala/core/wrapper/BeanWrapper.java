@@ -2,6 +2,7 @@ package github.koala.core.wrapper;
 
 import github.koala.core.annotation.HttpKoala;
 import github.koala.core.rpc.HttpProxyHandler;
+import java.lang.reflect.Field;
 import java.util.Objects;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -28,14 +29,14 @@ public class BeanWrapper {
     beanWrapper.setDefineType(classType);
     beanWrapper.setImplementType(implementType);
     beanWrapper.setSingleton(isSingleton);
-    beanWrapper.createInstance();
+    beanWrapper.initInstance();
     return beanWrapper;
   }
 
   /**
    * 根据Bean的条件 创建instance
    */
-  void createInstance() {
+  void initInstance() {
     try {
       if (!singleton) {
         //非单例 ,object存放实现类型 ,getBean时自动实例化
@@ -49,9 +50,7 @@ public class BeanWrapper {
       }
       //单例的Class 或 接口 ,实现类直接实例化
       instance = implementType.newInstance();
-    } catch (InstantiationException e) {
-      log.error(e.getMessage(), e);
-    } catch (IllegalAccessException e) {
+    } catch (Exception e) {
       log.error(e.getMessage(), e);
     }
   }
@@ -59,8 +58,32 @@ public class BeanWrapper {
   /**
    * 对比2个bean定义是否有不同
    */
-  public boolean checkConflict(BeanWrapper beanWrapper) {
-    return !implementType.getName().equals(beanWrapper.getImplementType().getName())
-        || !singleton.equals(beanWrapper.getSingleton());
+  public void checkConflict(Class implementType, Boolean singleton) {
+    if (!this.implementType.getName().equals(implementType.getName()) || !this.singleton
+        .equals(singleton)) {
+      //和已有的bean的类型冲突 程序直接停止
+      log.error("不能存在相同Type的不同作用域的Bean");
+      System.exit(0);
+    }
+  }
+
+  /**
+   * 检查目标字段的type是否契合当前bean
+   */
+  public boolean matchType(Field field) {
+    return field.getType().equals(implementType) || field.getType()
+        .equals(defineType);
+  }
+
+  public Object getObjectOfInstance() {
+    //本身是非单例的 ,马上实例化作为被依赖的对象
+    if (!singleton) {
+      try {
+        return ((Class) instance).newInstance();
+      } catch (Exception e) {
+        log.error(e.getMessage(), e);
+      }
+    }
+    return instance;
   }
 }

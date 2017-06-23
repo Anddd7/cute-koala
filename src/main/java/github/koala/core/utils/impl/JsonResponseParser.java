@@ -33,7 +33,7 @@ public class JsonResponseParser extends AbstractResponseParser {
   /**
    * 获取报文体
    */
-  String getBody(Response response) {
+  private String getBody(Response response) {
     try {
       return response.body().string();
     } catch (IOException e) {

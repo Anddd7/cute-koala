@@ -1,6 +1,7 @@
 package github.koala.core.utils.impl;
 
 import com.alibaba.fastjson.JSON;
+import github.koala.core.ListTool;
 import github.koala.core.annotation.HttpKoalaParameter;
 import github.koala.core.utils.AbstractRequestParser;
 import java.lang.reflect.Method;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -29,23 +31,20 @@ public class JsonRequestParser extends AbstractRequestParser {
 
   @Override
   public String formatParameter2Url(Method method, Object[] args) {
-    if (args == null || args.length == 0) {
+    if (ListTool.isEmpty(args)) {
       return "";
     }
+
     List<String> paramExpr = new ArrayList<>();
-    for (int i = 0; i < args.length; i++) {
-      String paramName = method.getParameters()[i].getAnnotation(HttpKoalaParameter.class)
-          .value();
-      String param = args[i] instanceof String ? args[i].toString() : JSON.toJSONString(args[i]);
-      paramExpr.add(paramName + "=" + param);
-    }
+    checkMethodAndParameter(method, args, (s, s2) -> paramExpr.add(s + "=" + s2));
+
     return "?" + String.join("&", paramExpr);
   }
 
   @Override
   public String formatParameter2Body(Method method, Object[] args) {
-    if (args == null || args.length == 0) {
-      return null;
+    if (ListTool.isEmpty(args)) {
+      return "";
     }
 
     if (args.length == 1) {
@@ -53,12 +52,18 @@ public class JsonRequestParser extends AbstractRequestParser {
     }
 
     Map<String, Object> paramExpr = new HashMap<>();
+    checkMethodAndParameter(method, args, paramExpr::put);
+
+    return JSON.toJSONString(paramExpr);
+  }
+
+  private void checkMethodAndParameter(Method method, Object[] args,
+      BiConsumer<String, String> biConsumer) {
     for (int i = 0; i < args.length; i++) {
       String paramName = method.getParameters()[i].getAnnotation(HttpKoalaParameter.class).value();
       String param = args[i] instanceof String ? args[i].toString() : JSON.toJSONString(args[i]);
-      paramExpr.put(paramName, param);
+      biConsumer.accept(paramName, param);
     }
-    return JSON.toJSONString(paramExpr);
   }
 
   @Override
@@ -67,7 +72,7 @@ public class JsonRequestParser extends AbstractRequestParser {
 
     RequestBody body = request.body();
     if (request.body() != null) {
-      log.info("请求报文体:[{}]-{}", body.contentType().toString(), request.body());
+      log.info("请求报文体:[{}]-{}", body.contentType(), request.body());
     }
   }
 }

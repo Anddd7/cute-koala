@@ -49,9 +49,7 @@ public class HttpProxyHandler implements InvocationHandler {
     try {
       responseParser = (AbstractResponseParser) resParserClass.newInstance();
       requestParser = (AbstractRequestParser) reqParserClass.newInstance();
-    } catch (InstantiationException e) {
-      e.printStackTrace();
-    } catch (IllegalAccessException e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
@@ -84,11 +82,11 @@ public class HttpProxyHandler implements InvocationHandler {
     HttpMethod httpMethod = method.getAnnotation(HttpKoalaMethod.class).httpMethod();
 
     //创建请求request
-    Request request = null;
+    Request request;
     if (httpMethod.equals(HttpMethod.GET)) {
-      request = httpClient.initRequest(url + requestParser.formatParameter2Url(method, args));
+      request = httpClient.initGet(url + requestParser.formatParameter2Url(method, args));
     } else {
-      request = httpClient.initRequest(url, requestParser.getMediaType(),
+      request = httpClient.initPost(url, requestParser.getMediaType(),
           requestParser.formatParameter2Body(method, args));
     }
     //一个切面 可以检查request

@@ -21,13 +21,13 @@ class HttpClientPool {
     httpClient = new OkHttpClient();
   }
 
-  Request initRequest(String url) {
+  Request initGet(String url) {
     return new Request.Builder()
         .url(url)
         .build();
   }
 
-  Request initRequest(String url, MediaType mediaType, String json) {
+  Request initPost(String url, MediaType mediaType, String json) {
     return new Request.Builder()
         .url(url)
         .post(RequestBody.create(mediaType, json))

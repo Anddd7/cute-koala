@@ -1,5 +1,6 @@
 package github.koala.core.pool;
 
+import github.koala.core.ListTool;
 import github.koala.core.annotation.HttpKoala;
 import github.koala.core.annotation.Koala;
 import github.koala.core.rpc.HttpProxyHandler;
@@ -32,23 +33,18 @@ public class BeanPool {
     }
     try {
       log.info("当前Bean是非单例的,创建新的对象.");
-
       //如果是远程代理的Bean ,直接生成远程代理
       if (classType.isInterface() && !Objects.isNull(classType.getAnnotation(HttpKoala.class))) {
         return (T) HttpProxyHandler.getProxyObject(classType);
       }
 
       T instance = ((Class<T>) scope.getInstance()).newInstance();
-
       //创建对象时查看内部是否有依赖关系 ,有则set到instance里
       checkRelyFrom(scope, (beanWrapper, field) ->
           resolveRely(instance, field, getBean(field.getType()))
       );
-
       return instance;
-    } catch (InstantiationException e) {
-      log.error(e.getMessage(), e);
-    } catch (IllegalAccessException e) {
+    } catch (Exception e) {
       log.error(e.getMessage(), e);
     }
     return null;
@@ -63,10 +59,8 @@ public class BeanPool {
       //创建新的bean放入cache
       beanWrapper = BeanWrapper.of(defineType, implementType, isSingleton);
       beanCache.put(beanWrapper);
-    } else if (beanWrapper.checkConflict(beanWrapper)) {
-      //和已有的bean的类型冲突 程序直接停止
-      log.error("不能存在相同Type的不同作用域的Bean");
-      System.exit(0);
+    } else {
+      beanWrapper.checkConflict(implementType, isSingleton);
     }
 
     if (beanWrapper.getSingleton()) {
@@ -129,31 +123,15 @@ public class BeanPool {
         beanWrapper.getImplementType().getName());
 
     //检查自身的实现类型是否被其他类需要
-    relyCache.get(beanWrapper.getImplementType()).forEach(parentBeanWrapper -> {
-      Object instance = beanWrapper.getInstance();
-      //本身是非单例的 ,马上实例化作为被依赖的对象
-      if (!beanWrapper.getSingleton()) {
-        try {
-          instance = ((Class) instance).newInstance();
-        } catch (InstantiationException e) {
-          log.error(e.getMessage(), e);
-        } catch (IllegalAccessException e) {
-          log.error(e.getMessage(), e);
-        }
-      }
-
-      //检索出被依赖的具体字段
-      Object parent = parentBeanWrapper.getInstance();
-      Field[] fields = parent.getClass().getDeclaredFields();
-      for (Field field : fields) {
-        //目标字段依赖当前对象的 接口/实现 时 ,处理依赖
-        if (field.getType().equals(beanWrapper.getImplementType()) || field.getType()
-            .equals(beanWrapper.getDefineType())) {
-          resolveRely(parent, field, instance);
-          break;
-        }
-      }
-    });
+    relyCache.get(beanWrapper.getImplementType())
+        .forEach(parentBeanWrapper -> {
+          Object parent = parentBeanWrapper.getInstance();
+          ListTool.dealFirst(
+              parent.getClass().getDeclaredFields(),
+              beanWrapper::matchType,
+              t -> resolveRely(parent, t, beanWrapper.getObjectOfInstance())
+          );
+        });
 
     relyCache.remove(beanWrapper.getImplementType());
   }

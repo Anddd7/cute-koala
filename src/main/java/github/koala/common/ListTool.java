@@ -1,4 +1,4 @@
-package github.koala.core;
+package github.koala.common;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,9 +7,12 @@ import java.util.function.Predicate;
 
 /**
  * @author edliao on 2017/6/23.
- * @description TODO
+ * @description 数组List工具补充
  */
 public class ListTool {
+
+  private ListTool() {
+  }
 
   public static <T> T getFirst(T[] objs, Predicate<T> predicate) {
     return getFirst(Arrays.asList(objs), predicate);

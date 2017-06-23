@@ -1,6 +1,6 @@
-package github.koala.core.pool;
+package github.koala.core.factory.pool;
 
-import github.koala.core.wrapper.BeanWrapper;
+import github.koala.core.bean.BeanWrapper;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.extern.slf4j.Slf4j;

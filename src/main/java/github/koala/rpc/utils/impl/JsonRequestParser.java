@@ -1,9 +1,9 @@
-package github.koala.core.utils.impl;
+package github.koala.rpc.utils.impl;
 
 import com.alibaba.fastjson.JSON;
-import github.koala.core.ListTool;
-import github.koala.core.annotation.HttpKoalaParameter;
-import github.koala.core.utils.AbstractRequestParser;
+import github.koala.common.ListTool;
+import github.koala.rpc.annotation.HttpKoalaParameter;
+import github.koala.rpc.utils.AbstractRequestParser;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import okhttp3.RequestBody;
  * @description 使用JSON序列化Request请求
  */
 @Slf4j
-public class JsonRequestParser extends AbstractRequestParser {
+public class JsonRequestParser implements AbstractRequestParser {
 
   private static final MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
 

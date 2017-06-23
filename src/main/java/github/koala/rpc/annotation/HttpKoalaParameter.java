@@ -1,4 +1,4 @@
-package github.koala.core.annotation;
+package github.koala.rpc.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

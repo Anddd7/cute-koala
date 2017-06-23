@@ -1,10 +1,10 @@
-package github.koala.core.rpc;
+package github.koala.rpc;
 
-import github.koala.core.annotation.HttpKoala;
-import github.koala.core.annotation.HttpKoalaMethod;
-import github.koala.core.annotation.HttpKoalaMethod.HttpMethod;
-import github.koala.core.utils.AbstractRequestParser;
-import github.koala.core.utils.AbstractResponseParser;
+import github.koala.rpc.annotation.HttpKoala;
+import github.koala.rpc.annotation.HttpKoalaMethod;
+import github.koala.rpc.annotation.HttpKoalaMethod.HttpMethod;
+import github.koala.rpc.utils.AbstractRequestParser;
+import github.koala.rpc.utils.AbstractResponseParser;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

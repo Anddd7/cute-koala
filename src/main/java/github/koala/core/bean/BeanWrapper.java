@@ -1,7 +1,7 @@
-package github.koala.core.wrapper;
+package github.koala.core.bean;
 
-import github.koala.core.annotation.HttpKoala;
-import github.koala.core.rpc.HttpProxyHandler;
+import github.koala.rpc.HttpProxyHandler;
+import github.koala.rpc.annotation.HttpKoala;
 import java.lang.reflect.Field;
 import java.util.Objects;
 import lombok.Data;
@@ -59,7 +59,7 @@ public class BeanWrapper {
    * 对比2个bean定义是否有不同
    */
   public void checkConflict(Class implementType, Boolean singleton) {
-    if (!this.implementType.getName().equals(implementType.getName()) || !this.singleton
+    if (!this.implementType.equals(implementType) || !this.singleton
         .equals(singleton)) {
       //和已有的bean的类型冲突 程序直接停止
       log.error("不能存在相同Type的不同作用域的Bean");

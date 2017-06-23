@@ -1,6 +1,6 @@
 package github.koala.core.factory;
 
-import github.koala.core.wrapper.BeanWrapper;
+import github.koala.core.bean.BeanWrapper;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;

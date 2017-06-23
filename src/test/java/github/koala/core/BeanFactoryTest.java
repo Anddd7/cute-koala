@@ -8,7 +8,7 @@ import com.koala.services.UserService;
 import com.koala.services.impl.UserServiceImpl;
 import com.koala.utils.RandomTool;
 import github.koala.core.factory.KoalaFactory;
-import github.koala.core.wrapper.BeanWrapper;
+import github.koala.core.bean.BeanWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;

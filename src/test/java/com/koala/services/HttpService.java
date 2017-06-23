@@ -2,10 +2,10 @@ package com.koala.services;
 
 
 import com.koala.beans.User;
-import github.koala.core.annotation.HttpKoala;
-import github.koala.core.annotation.HttpKoalaMethod;
-import github.koala.core.annotation.HttpKoalaMethod.HttpMethod;
-import github.koala.core.annotation.HttpKoalaParameter;
+import github.koala.rpc.annotation.HttpKoala;
+import github.koala.rpc.annotation.HttpKoalaMethod;
+import github.koala.rpc.annotation.HttpKoalaMethod.HttpMethod;
+import github.koala.rpc.annotation.HttpKoalaParameter;
 import java.util.List;
 import java.util.Map;
 

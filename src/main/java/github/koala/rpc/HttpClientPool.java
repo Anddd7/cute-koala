@@ -1,4 +1,4 @@
-package github.koala.core.rpc;
+package github.koala.rpc;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;

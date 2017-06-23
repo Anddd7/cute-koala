@@ -1,8 +1,8 @@
-package github.koala.core.pool;
+package github.koala.core.factory.pool;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
-import github.koala.core.wrapper.BeanWrapper;
+import github.koala.core.bean.BeanWrapper;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 

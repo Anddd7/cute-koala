@@ -1,7 +1,7 @@
 package github.koala.core.factory;
 
-import github.koala.core.pool.BeanPool;
-import github.koala.core.wrapper.BeanWrapper;
+import github.koala.core.bean.BeanWrapper;
+import github.koala.core.factory.pool.BeanPool;
 import java.util.Map;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -12,26 +12,26 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Data
- class KoalaModule {
+class KoalaModule {
 
   String moduleName;
   Class moduleClass;
   BeanPool beanPool;
 
-   KoalaModule(Class moduleClass) {
+  KoalaModule(Class moduleClass) {
     this.moduleName = moduleClass.getSimpleName();
     this.moduleClass = moduleClass;
     this.beanPool = new BeanPool();
   }
 
-   <T> T getBean(Class<T> classType) {
+  <T> T getBean(Class<T> classType) {
     return beanPool.getBean(classType);
   }
 
   /**
    * 循环创建bean和引用的bean
    */
-   void createBean(Class defineType, Class implementType, Boolean isSingleton) {
+  void createBean(Class defineType, Class implementType, Boolean isSingleton) {
     log.info("添加Bean[{} - {}]到缓冲池.", defineType.getSimpleName(), implementType.getSimpleName());
     try {
       beanPool.addBean(defineType, implementType, isSingleton);
@@ -40,7 +40,7 @@ import lombok.extern.slf4j.Slf4j;
     }
   }
 
-   Map<Class, BeanWrapper> getCache4Test(){
+  Map<Class, BeanWrapper> getCache4Test() {
     return beanPool.getCache4Test();
   }
 }

@@ -14,16 +14,16 @@ import lombok.extern.slf4j.Slf4j;
  * @description 扫描module 分析里面bean信息
  */
 @Slf4j
-class BeanScanner {
+class ModuleScanner {
 
   /**
    * 创建一个module
    */
-  Optional<BeanModule> createModule(Class moduleClass) {
+  Optional<KoalaModule> createModule(Class moduleClass) {
     if (!isModule(moduleClass)) {
       return Optional.empty();
     }
-    BeanModule newModule = new BeanModule(moduleClass);
+    KoalaModule newModule = new KoalaModule(moduleClass);
     scanModule(newModule);
     return Optional.of(newModule);
   }
@@ -38,7 +38,7 @@ class BeanScanner {
   /**
    * 扫描
    */
-  private void scanModule(BeanModule beanModule) {
+  private void scanModule(KoalaModule beanModule) {
     log.info("开始扫描模块:{}", beanModule.getModuleName());
     scanClass(beanModule, beanModule.moduleClass);
   }
@@ -46,7 +46,7 @@ class BeanScanner {
   /**
    * 扫描类 ,方便树型操作
    */
-  private void scanClass(BeanModule beanModule, Class moduleClass) {
+  private void scanClass(KoalaModule beanModule, Class moduleClass) {
     log.info("开始扫描目标类[{}],路径[{}]", moduleClass.getSimpleName(), moduleClass.getName());
     Arrays.asList(moduleClass.getDeclaredFields())
         .forEach(field -> scanComponent(beanModule, field));
@@ -56,7 +56,7 @@ class BeanScanner {
   /**
    * 扫描需要注入依赖的字段
    */
-  private void scanComponent(BeanModule beanModule, Field field) {
+  private void scanComponent(KoalaModule beanModule, Field field) {
     if (Objects.isNull(field.getAnnotation(Koala.class))) {
       return;
     }

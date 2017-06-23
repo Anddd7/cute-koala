@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description 依赖关系缓存 ,按照[被依赖对象类型 , 需要注入依赖的Bean]形式存放
  */
 @Slf4j
-class RelyCache {
+class BeanRelyCache {
 
   private ListMultimap<Class, BeanWrapper> cache = LinkedListMultimap.create();
 

@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BeanPool {
 
-  private final BeanCache beanCache = new BeanCache();
-  private final RelyCache relyCache = new RelyCache();
+  private final BeanWrapperCache beanCache = new BeanWrapperCache();
+  private final BeanRelyCache relyCache = new BeanRelyCache();
 
   /**
    * 获取对应类型的Bean对象

@@ -16,27 +16,27 @@ import lombok.extern.slf4j.Slf4j;
  * @description 系统入口和管理中心 ,扫描并加载bean ,对外可以获取bean
  */
 @Slf4j
-public class BeanFactory {
+public class KoalaFactory {
 
   @Getter
   private List<Class> moduleClasses = new ArrayList<>();
 
-  private Map<Class, BeanModule> moduleMap = new HashMap<>();
-  private BeanScanner scanner = new BeanScanner();
-  private BeanModule currentModule;
+  private Map<Class, KoalaModule> moduleMap = new HashMap<>();
+  private ModuleScanner scanner = new ModuleScanner();
+  private KoalaModule currentModule;
 
-  public static BeanFactory of(Class... modules) {
-    return new BeanFactory(modules).build();
+  public static KoalaFactory of(Class... modules) {
+    return new KoalaFactory(modules).build();
   }
 
-  private BeanFactory(Class... moduleClasses) {
+  private KoalaFactory(Class... moduleClasses) {
     this.moduleClasses = Arrays.asList(moduleClasses);
   }
 
   /**
    * 构建
    */
-  private BeanFactory build() {
+  private KoalaFactory build() {
     Instant start = Instant.now();
     log.info("----------------------------------------------");
     log.info("Factory启动~");

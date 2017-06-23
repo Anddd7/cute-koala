@@ -7,9 +7,8 @@ import com.koala.services.HttpService;
 import com.koala.services.UserService;
 import com.koala.services.impl.UserServiceImpl;
 import com.koala.utils.RandomTool;
-import github.koala.core.factory.BeanFactory;
+import github.koala.core.factory.KoalaFactory;
 import github.koala.core.wrapper.BeanWrapper;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public class BeanFactoryTest {
 
   @Test
   public void factoryTest() {
-    BeanFactory beanFactory = BeanFactory.of(UserModule.class);
+    KoalaFactory beanFactory = KoalaFactory.of(UserModule.class);
     HttpService httpService = beanFactory.getBean(HttpService.class);
     UserService userService = beanFactory.getBean(UserService.class);
     RandomTool randomTool = beanFactory.getBean(RandomTool.class);

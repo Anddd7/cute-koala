@@ -12,13 +12,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Data
- class BeanModule {
+ class KoalaModule {
 
   String moduleName;
   Class moduleClass;
   BeanPool beanPool;
 
-   BeanModule(Class moduleClass) {
+   KoalaModule(Class moduleClass) {
     this.moduleName = moduleClass.getSimpleName();
     this.moduleClass = moduleClass;
     this.beanPool = new BeanPool();

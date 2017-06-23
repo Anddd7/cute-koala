@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * @description Bean的缓冲池
  */
 @Slf4j
-class BeanCache {
+class BeanWrapperCache {
 
   private Map<Class, BeanWrapper> cache = new ConcurrentHashMap<>();
 

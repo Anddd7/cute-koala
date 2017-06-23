@@ -3,6 +3,7 @@ package github.koala.core.factory.pool;
 import github.koala.common.ListTool;
 import github.koala.core.annotation.Koala;
 import github.koala.core.bean.BeanWrapper;
+import github.koala.rpc.HttpProxyBeanFactory;
 import github.koala.rpc.HttpProxyHandler;
 import github.koala.rpc.annotation.HttpKoala;
 import java.lang.reflect.Field;
@@ -35,7 +36,7 @@ public class BeanPool {
       log.info("当前Bean是非单例的,创建新的对象.");
       //如果是远程代理的Bean ,直接生成远程代理
       if (classType.isInterface() && !Objects.isNull(classType.getAnnotation(HttpKoala.class))) {
-        return (T) HttpProxyHandler.getProxyObject(classType);
+        return (T) HttpProxyBeanFactory.getProxyInstance(classType);
       }
 
       T instance = ((Class<T>) scope.getInstance()).newInstance();

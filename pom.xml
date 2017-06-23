@@ -20,6 +20,7 @@
     <lombok.v>RELEASE</lombok.v>
     <okhttp.v>3.8.0</okhttp.v>
     <fastjson.v>1.2.33</fastjson.v>
+    <cglib.v>3.2.5</cglib.v>
   </properties>
 
   <dependencies>
@@ -39,6 +40,12 @@
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>${fastjson.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>${cglib.v}</version>
     </dependency>
 
     <dependency>

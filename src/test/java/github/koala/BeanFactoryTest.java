@@ -1,4 +1,4 @@
-package github.koala.core;
+package github.koala;
 
 import com.koala.UserModule;
 import com.koala.daos.UserDao;

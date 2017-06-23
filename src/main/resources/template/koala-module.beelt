@@ -1,0 +1,19 @@
+package ${module.packageName};
+
+import github.koala.core.annotation.Koala;
+import github.koala.core.annotation.Koala.ScopeEnum;
+import github.koala.core.annotation.Module;
+
+/**
+ * @author edliao on Auto generate.
+ */
+@Module
+public class ${module.moduleName} {
+
+<%
+for(bean in module.beans){
+    print("\t@Koala"+bean.annotation+"\n");
+    print("\t"+bean.path+" "+bean.beanName+";\n\n");
+}
+%>
+}

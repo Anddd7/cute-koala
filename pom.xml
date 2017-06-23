@@ -21,6 +21,8 @@
     <okhttp.v>3.8.0</okhttp.v>
     <fastjson.v>1.2.33</fastjson.v>
     <cglib.v>3.2.5</cglib.v>
+    <beetl.v>2.7.16</beetl.v>
+    <snakeyaml.v>1.18</snakeyaml.v>
   </properties>
 
   <dependencies>
@@ -46,6 +48,18 @@
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
       <version>${cglib.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.ibeetl</groupId>
+      <artifactId>beetl</artifactId>
+      <version>${beetl.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>${snakeyaml.v}</version>
     </dependency>
 
     <dependency>

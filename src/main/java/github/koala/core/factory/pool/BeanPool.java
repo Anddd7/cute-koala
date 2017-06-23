@@ -4,7 +4,6 @@ import github.koala.common.ListTool;
 import github.koala.core.annotation.Koala;
 import github.koala.core.bean.BeanWrapper;
 import github.koala.rpc.HttpProxyBeanFactory;
-import github.koala.rpc.HttpProxyHandler;
 import github.koala.rpc.annotation.HttpKoala;
 import java.lang.reflect.Field;
 import java.util.Arrays;

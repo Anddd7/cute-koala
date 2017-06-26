@@ -1,7 +1,7 @@
 package github.koala.rpc.utils.impl;
 
 import com.alibaba.fastjson.JSON;
-import github.koala.common.ListTool;
+import github.koala.common.CollectionTool;
 import github.koala.rpc.annotation.HttpKoalaParameter;
 import github.koala.rpc.utils.AbstractRequestParser;
 import java.lang.reflect.Method;
@@ -31,7 +31,7 @@ public class JsonRequestParser implements AbstractRequestParser {
 
   @Override
   public String formatParameter2Url(Method method, Object[] args) {
-    if (ListTool.isEmpty(args)) {
+    if (CollectionTool.isEmpty(args)) {
       return "";
     }
 
@@ -43,7 +43,7 @@ public class JsonRequestParser implements AbstractRequestParser {
 
   @Override
   public String formatParameter2Body(Method method, Object[] args) {
-    if (ListTool.isEmpty(args)) {
+    if (CollectionTool.isEmpty(args)) {
       return "";
     }
 

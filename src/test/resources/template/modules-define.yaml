@@ -1,5 +1,5 @@
 modules:
-- moduleName: userModule
+- moduleName: user-http
   packageName: com.koala
   beans:
   - beanName: httpService

@@ -1,8 +1,5 @@
 package others.generator;
 
-import github.koala.common.IOTool;
-import github.koala.generator.TemplateGenerator;
-import github.koala.generator.YamlScanner;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -82,10 +79,5 @@ public class BeetlTest {
     Object result = yaml.load(new FileInputStream(f));
     System.out.println(result.getClass());
     System.out.println(result);
-  }
-
-  @Test
-  public void testYaml(){
-    new TemplateGenerator().generate(IOTool.getProjectPath()+"/generator-test/",new YamlScanner().getConfig());
   }
 }

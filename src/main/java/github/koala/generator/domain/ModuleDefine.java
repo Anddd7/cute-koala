@@ -1,6 +1,6 @@
 package github.koala.generator.domain;
 
-import com.google.common.base.CaseFormat;
+import github.koala.common.PatternTool;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +23,6 @@ public class ModuleDefine {
   List<BeanDefine> beans;
 
   public void setModuleName(String moduleName) {
-    this.moduleName = CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL,moduleName);
+    this.moduleName = PatternTool.format2UpperCamel(moduleName)+"Module" ;
   }
 }

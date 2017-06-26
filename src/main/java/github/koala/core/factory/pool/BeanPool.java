@@ -1,6 +1,6 @@
 package github.koala.core.factory.pool;
 
-import github.koala.common.ListTool;
+import github.koala.common.CollectionTool;
 import github.koala.core.annotation.Koala;
 import github.koala.core.bean.BeanWrapper;
 import github.koala.rpc.HttpProxyBeanFactory;
@@ -126,7 +126,7 @@ public class BeanPool {
     relyCache.get(beanWrapper.getImplementType())
         .forEach(parentBeanWrapper -> {
           Object parent = parentBeanWrapper.getInstance();
-          ListTool.dealFirst(
+          CollectionTool.dealFirst(
               parent.getClass().getDeclaredFields(),
               beanWrapper::matchType,
               t -> resolveRely(parent, t, beanWrapper.getObjectOfInstance())

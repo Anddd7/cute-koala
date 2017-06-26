@@ -1,6 +1,5 @@
 package github.koala.generator;
 
-import com.google.common.base.CaseFormat;
 import com.google.common.io.Files;
 import github.koala.generator.domain.ConfigDefine;
 import github.koala.generator.domain.ModuleDefine;

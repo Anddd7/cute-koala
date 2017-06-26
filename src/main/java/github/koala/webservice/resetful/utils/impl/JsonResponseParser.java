@@ -1,9 +1,9 @@
-package github.koala.rpc.utils.impl;
+package github.koala.webservice.resetful.utils.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import github.koala.rpc.utils.AbstractResponseParser;
+import github.koala.webservice.resetful.utils.AbstractResponseParser;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Response;

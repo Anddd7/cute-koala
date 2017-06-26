@@ -1,4 +1,4 @@
-package github.koala.rpc;
+package github.koala.webservice.resetful;
 
 import net.sf.cglib.proxy.Enhancer;
 

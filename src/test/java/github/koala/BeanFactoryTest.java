@@ -3,10 +3,11 @@ package github.koala;
 import com.koala.UserModule;
 import com.koala.daos.UserDao;
 import com.koala.daos.impl.UserDaoImpl;
-import com.koala.services.HttpService;
+import com.koala.services.AdminServiceImpl;
 import com.koala.services.UserService;
 import com.koala.services.impl.UserServiceImpl;
 import com.koala.utils.RandomTool;
+import com.koala.webservice.HttpService;
 import github.koala.core.bean.BeanWrapper;
 import github.koala.core.factory.KoalaFactory;
 import lombok.extern.slf4j.Slf4j;
@@ -72,4 +73,9 @@ public class BeanFactoryTest {
     System.out.println(classType.getName() + "\t|\t" + object);
   }
 
+  @Test
+  public void differentImpl() {
+    KoalaFactory factory = KoalaFactory.of(UserModule.class);
+    factory.getBean(AdminServiceImpl.class).welcome();
+  }
 }

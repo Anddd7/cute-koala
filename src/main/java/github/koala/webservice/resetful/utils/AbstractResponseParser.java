@@ -1,4 +1,4 @@
-package github.koala.rpc.utils;
+package github.koala.webservice.resetful.utils;
 
 import okhttp3.Response;
 

@@ -1,4 +1,4 @@
-package github.koala.rpc.annotation;
+package github.koala.webservice.resetful.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

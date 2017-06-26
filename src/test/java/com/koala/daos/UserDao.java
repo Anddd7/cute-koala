@@ -1,6 +1,6 @@
 package com.koala.daos;
 
-import com.koala.services.HttpService;
+import com.koala.webservice.HttpService;
 
 /**
  * @author edliao on 2017/6/19.

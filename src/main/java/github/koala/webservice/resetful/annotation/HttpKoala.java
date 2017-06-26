@@ -1,7 +1,7 @@
-package github.koala.rpc.annotation;
+package github.koala.webservice.resetful.annotation;
 
-import github.koala.rpc.utils.impl.JsonRequestParser;
-import github.koala.rpc.utils.impl.JsonResponseParser;
+import github.koala.webservice.resetful.utils.impl.JsonRequestParser;
+import github.koala.webservice.resetful.utils.impl.JsonResponseParser;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

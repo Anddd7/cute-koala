@@ -1,7 +1,8 @@
 package github.koala.core.bean;
 
-import github.koala.rpc.HttpProxyHandler;
-import github.koala.rpc.annotation.HttpKoala;
+import github.koala.webservice.resetful.HttpProxyBeanFactory;
+import github.koala.webservice.resetful.HttpProxyHandler;
+import github.koala.webservice.resetful.annotation.HttpKoala;
 import java.lang.reflect.Field;
 import java.util.Objects;
 import lombok.Data;
@@ -45,7 +46,7 @@ public class BeanWrapper {
       }
       //单例的代理接口 ,生成代理对象
       if (!Objects.isNull(defineType.getAnnotation(HttpKoala.class))) {
-        instance = HttpProxyHandler.getProxyObject(defineType);
+        instance = HttpProxyBeanFactory.getProxyInstance(defineType);
         return;
       }
       //单例的Class 或 接口 ,实现类直接实例化

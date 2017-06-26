@@ -1,5 +1,7 @@
 package com.koala;
 
+import com.koala.webservice.HttpService;
+
 /**
  * @author edliao on Auto generate.
  */
@@ -7,7 +9,7 @@ package com.koala;
 public class UserHttpModule {
 
 	@github.koala.core.annotation.Koala
-	com.koala.services.HttpService httpService;
+  HttpService httpService;
 
 	@github.koala.core.annotation.Koala(value = com.koala.services.impl.UserServiceImpl.class)
 	com.koala.services.UserService userService;

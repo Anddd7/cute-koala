@@ -1,4 +1,4 @@
-package github.koala.rpc;
+package github.koala.webservice.resetful;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;

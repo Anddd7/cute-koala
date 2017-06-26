@@ -1,4 +1,4 @@
-package github.koala.rpc.utils;
+package github.koala.webservice.resetful.utils;
 
 import java.lang.reflect.Method;
 import okhttp3.MediaType;

@@ -1,28 +1,25 @@
-package github.koala.rpc;
+package github.koala.webservice.resetful;
 
-import github.koala.rpc.annotation.HttpKoala;
-import github.koala.rpc.annotation.HttpKoalaMethod;
-import github.koala.rpc.annotation.HttpKoalaMethod.HttpMethod;
-import github.koala.rpc.utils.AbstractRequestParser;
-import github.koala.rpc.utils.AbstractResponseParser;
-import java.lang.reflect.InvocationHandler;
+import github.koala.webservice.resetful.annotation.HttpKoala;
+import github.koala.webservice.resetful.annotation.HttpKoalaMethod;
+import github.koala.webservice.resetful.annotation.HttpKoalaMethod.HttpMethod;
+import github.koala.webservice.resetful.utils.AbstractRequestParser;
+import github.koala.webservice.resetful.utils.AbstractResponseParser;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.time.Duration;
 import java.time.Instant;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
 import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- * @author edliao on 2017/6/21.
- * @description Http形式的rpc调用
+ * @author edliao on 2017/6/23.
+ * @description Http代理对象
  */
-@Deprecated
 @Slf4j
-@AllArgsConstructor
-public class HttpProxyHandler implements InvocationHandler {
+public class HttpProxyObject implements MethodInterceptor {
 
   private String className;
   private String rootUrl;
@@ -30,23 +27,24 @@ public class HttpProxyHandler implements InvocationHandler {
   private AbstractResponseParser responseParser;
   private AbstractRequestParser requestParser;
 
-  private HttpClientPool httpClient;
+  private HttpClientPool httpClient = new HttpClientPool();
 
   /**
    * 创建代理对象 ,添加序列化工具
    */
-  public static Object getProxyObject(Class<?> classType) {
+  HttpProxyObject(Class<?> classType) {
+    this.className = classType.getName();
+    this.rootUrl = classType.getAnnotation(HttpKoala.class).value();
+
     //检查解析器
     Class<?> resParserClass = classType.getAnnotation(HttpKoala.class).responseParser();
     Class<?> reqParserClass = classType.getAnnotation(HttpKoala.class).requestParser();
     if (resParserClass.isAssignableFrom(AbstractResponseParser.class) && reqParserClass
         .isAssignableFrom(AbstractRequestParser.class)) {
       log.error("对应的消息解析器必须继承自AbstractResponseParser和AbstractRequestParser.");
-      return null;
+      return;
     }
 
-    AbstractResponseParser responseParser = null;
-    AbstractRequestParser requestParser = null;
     try {
       responseParser = (AbstractResponseParser) resParserClass.newInstance();
       requestParser = (AbstractRequestParser) reqParserClass.newInstance();
@@ -54,21 +52,20 @@ public class HttpProxyHandler implements InvocationHandler {
       e.printStackTrace();
     }
 
-    //获取根url
-    String url = classType.getAnnotation(HttpKoala.class).value();
-
     log.info("生成[{}]远程代理Bean,使用[{}]进行结果解析", classType.getName(), resParserClass.getName());
-
-    return Proxy.newProxyInstance(classType.getClassLoader(), new Class[]{classType},
-        new HttpProxyHandler(classType.getName(), url, responseParser, requestParser,
-            new HttpClientPool()));
   }
 
   /**
    * 代理方法 ,托管给http完成
+   *
+   * @param o 当前的对象
+   * @param method 调用的目标方法
+   * @param args 方法参数
+   * @param methodProxy cglib派生的子对象
    */
   @Override
-  public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+  public Object intercept(Object o, Method method, Object[] args, MethodProxy methodProxy)
+      throws Throwable {
     Instant start = Instant.now();
 
     //屏蔽toString ,equals等方法

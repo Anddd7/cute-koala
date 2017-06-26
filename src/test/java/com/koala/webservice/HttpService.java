@@ -1,11 +1,11 @@
-package com.koala.services;
+package com.koala.webservice;
 
 
 import com.koala.beans.User;
-import github.koala.rpc.annotation.HttpKoala;
-import github.koala.rpc.annotation.HttpKoalaMethod;
-import github.koala.rpc.annotation.HttpKoalaMethod.HttpMethod;
-import github.koala.rpc.annotation.HttpKoalaParameter;
+import github.koala.webservice.resetful.annotation.HttpKoala;
+import github.koala.webservice.resetful.annotation.HttpKoalaMethod;
+import github.koala.webservice.resetful.annotation.HttpKoalaMethod.HttpMethod;
+import github.koala.webservice.resetful.annotation.HttpKoalaParameter;
 import java.util.List;
 import java.util.Map;
 

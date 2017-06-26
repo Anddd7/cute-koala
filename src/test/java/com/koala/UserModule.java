@@ -1,6 +1,7 @@
 package com.koala;
 
-import com.koala.services.HttpService;
+import com.koala.services.AdminServiceImpl;
+import com.koala.webservice.HttpService;
 import com.koala.services.UserService;
 import com.koala.services.impl.UserServiceImpl;
 import com.koala.utils.RandomTool;
@@ -24,4 +25,6 @@ public class UserModule {
   @Koala(scope = ScopeEnum.NOSCOPE)
   RandomTool randomTool;
 
+  @Koala
+  AdminServiceImpl adminService;
 }

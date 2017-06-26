@@ -13,7 +13,7 @@ import github.koala.core.annotation.Koala.ScopeEnum;
  */
 public class UserServiceImpl implements UserService {
 
-  @Koala( UserDaoImpl.class)
+  @Koala(UserDaoImpl.class)
   UserDao userDao;
 
   @Koala(scope = ScopeEnum.NOSCOPE)

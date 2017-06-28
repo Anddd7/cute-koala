@@ -1,6 +1,6 @@
 package github.koala.generator.domain;
 
-import github.koala.common.PatternTool;
+import github.and777.common.PatternTool;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;

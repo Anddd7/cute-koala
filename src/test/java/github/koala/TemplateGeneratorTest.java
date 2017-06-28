@@ -1,8 +1,8 @@
 package github.koala;
 
 import com.koala.services.UserService;
-import github.koala.common.FileSystemTool;
-import github.koala.common.YAMLScanner;
+import github.and777.common.FileSystemTool;
+import github.and777.common.YAMLScanner;
 import github.koala.core.factory.KoalaFactory;
 import github.koala.generator.TemplateGenerator;
 import github.koala.generator.domain.ConfigDefine;

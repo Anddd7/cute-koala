@@ -1,6 +1,6 @@
 package github.koala.generator;
 
-import github.koala.common.FileSystemTool;
+import github.and777.common.FileSystemTool;
 import github.koala.generator.domain.ConfigDefine;
 import github.koala.generator.domain.ModuleDefine;
 import java.io.IOException;

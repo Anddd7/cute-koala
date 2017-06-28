@@ -1,4 +1,4 @@
-package github.koala.common;
+package github.and777.common;
 
 import com.google.common.base.CaseFormat;
 import java.util.HashMap;

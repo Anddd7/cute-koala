@@ -1,4 +1,4 @@
-package github.koala.common;
+package github.and777.common;
 
 import java.io.FileReader;
 import java.net.URL;

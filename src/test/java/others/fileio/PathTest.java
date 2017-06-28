@@ -1,7 +1,7 @@
 package others.fileio;
 
-import github.koala.common.FileSystemTool;
-import github.koala.common.PatternTool;
+import github.and777.common.FileSystemTool;
+import github.and777.common.PatternTool;
 import org.junit.Test;
 
 /**

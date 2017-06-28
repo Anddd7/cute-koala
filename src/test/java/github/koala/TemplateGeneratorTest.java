@@ -2,9 +2,10 @@ package github.koala;
 
 import com.koala.services.UserService;
 import github.koala.common.FileSystemTool;
+import github.koala.common.YAMLScanner;
 import github.koala.core.factory.KoalaFactory;
 import github.koala.generator.TemplateGenerator;
-import github.koala.generator.YamlScanner;
+import github.koala.generator.domain.ConfigDefine;
 import org.junit.Test;
 
 /**
@@ -17,14 +18,14 @@ public class TemplateGeneratorTest {
   public void testYaml() {
     new TemplateGenerator()
         .generate(FileSystemTool.getProjectPath() + "/generator-test/",
-            new YamlScanner().getConfig());
+            YAMLScanner.getConfigInClassPath("template/modules-define.yaml", ConfigDefine.class));
   }
 
   @Test
-  public void testWithBeanFactory()  {
+  public void testWithBeanFactory() {
     new TemplateGenerator()
         .generate(FileSystemTool.getProjectPath() + "/src/test/java/",
-            new YamlScanner().getConfig());
+            YAMLScanner.getConfigInClassPath("template/modules-define.yaml", ConfigDefine.class));
   }
 
   @Test

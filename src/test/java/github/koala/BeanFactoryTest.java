@@ -44,8 +44,7 @@ public class BeanFactoryTest {
     Assert.assertEquals(userDao2, userService1.getUserDao());
     Assert.assertNotEquals(randomTool, userService1.getRandomTool());
 
-    System.out.println();
-
+    System.out.println("通过Factory.getBean");
     printObj(userService);
     printObj(userService1);
 
@@ -58,6 +57,7 @@ public class BeanFactoryTest {
     printObj(randomTool);
     printObj(userService1.getRandomTool());
 
+    System.out.println("容器:");
     beanFactory.getCache4Test().forEach(this::printBeanWrapper);
   }
 

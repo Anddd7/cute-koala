@@ -16,5 +16,4 @@ public class UserHttpModule {
 
 	@github.koala.core.annotation.Koala(scope = github.koala.core.annotation.Koala.ScopeEnum.NOSCOPE)
 	com.koala.utils.RandomTool randomTool;
-
 }

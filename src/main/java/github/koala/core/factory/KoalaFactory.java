@@ -19,10 +19,12 @@ public class KoalaFactory {
 
   @Getter
   private List<Class> moduleList;
-  private int index;
 
   private Map<Class, KoalaModule> moduleMap = new HashMap<>();
   private ModuleScanner scanner = new ModuleScanner();
+
+  //可以切换当前module
+  private int index;
   private KoalaModule currentModule;
 
   public static KoalaFactory of(Class... modules) {

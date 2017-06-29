@@ -25,6 +25,6 @@ public class UserModule {
   @Koala(scope = ScopeEnum.NOSCOPE)
   RandomTool randomTool;
 
-  @Koala
-  AdminServiceImpl adminService;
+  //@Koala
+  //AdminServiceImpl adminService;
 }

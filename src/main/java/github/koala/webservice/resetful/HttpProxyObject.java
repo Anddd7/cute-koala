@@ -30,6 +30,11 @@ public class HttpProxyObject implements MethodInterceptor {
   private HttpClientPool httpClient = new HttpClientPool();
 
   /**
+   * 修改webservice为配置文件配置
+   */
+  //private HttpServiceConfig serviceConfig;
+
+  /**
    * 创建代理对象 ,添加序列化工具
    */
   HttpProxyObject(Class<?> classType) {

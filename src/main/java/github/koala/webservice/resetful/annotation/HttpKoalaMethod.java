@@ -1,5 +1,6 @@
 package github.koala.webservice.resetful.annotation;
 
+import github.koala.webservice.resetful.HttpMethodEnum;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,9 +18,6 @@ public @interface HttpKoalaMethod {
 
   String value();
 
-  HttpMethod httpMethod() default HttpMethod.GET;
+  HttpMethodEnum httpMethod() default HttpMethodEnum.GET;
 
-  enum HttpMethod {
-    POST, GET
-  }
 }

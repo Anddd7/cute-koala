@@ -2,7 +2,6 @@ package github.koala.webservice.resetful;
 
 import github.koala.webservice.resetful.annotation.HttpKoala;
 import github.koala.webservice.resetful.annotation.HttpKoalaMethod;
-import github.koala.webservice.resetful.annotation.HttpKoalaMethod.HttpMethod;
 import github.koala.webservice.resetful.utils.AbstractRequestParser;
 import github.koala.webservice.resetful.utils.AbstractResponseParser;
 import java.lang.reflect.Method;
@@ -82,11 +81,11 @@ public class HttpProxyObject implements MethodInterceptor {
     log.info("[{}]调用远程方法[{}].", className, method.getName());
 
     String url = rootUrl + method.getAnnotation(HttpKoalaMethod.class).value();
-    HttpMethod httpMethod = method.getAnnotation(HttpKoalaMethod.class).httpMethod();
+    HttpMethodEnum httpMethod = method.getAnnotation(HttpKoalaMethod.class).httpMethod();
 
     //创建请求request
     Request request;
-    if (httpMethod.equals(HttpMethod.GET)) {
+    if (httpMethod.equals(HttpMethodEnum.GET)) {
       request = httpClient.initGet(url + requestParser.formatParameter2Url(method, args));
     } else {
       request = httpClient.initPost(url, requestParser.getMediaType(),

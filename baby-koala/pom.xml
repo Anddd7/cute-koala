@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>cute-koala</artifactId>
+    <groupId>github.koalaman</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>baby-koala</artifactId>
+
+  <properties>
+    <junit.v>RELEASE</junit.v>
+    <guava.v>RELEASE</guava.v>
+    <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
+    <lombok.v>RELEASE</lombok.v>
+    <okhttp.v>3.8.0</okhttp.v>
+    <fastjson.v>1.2.33</fastjson.v>
+    <cglib.v>3.2.5</cglib.v>
+    <beetl.v>2.7.16</beetl.v>
+    <snakeyaml.v>1.18</snakeyaml.v>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>${okhttp.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>fastjson</artifactId>
+      <version>${fastjson.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>${cglib.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.ibeetl</groupId>
+      <artifactId>beetl</artifactId>
+      <version>${beetl.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>${snakeyaml.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j-log4j12.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.v}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.v}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>

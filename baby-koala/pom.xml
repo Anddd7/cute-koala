@@ -12,22 +12,28 @@
   <artifactId>baby-koala</artifactId>
 
   <properties>
-    <junit.v>RELEASE</junit.v>
-    <guava.v>RELEASE</guava.v>
-    <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
-    <lombok.v>RELEASE</lombok.v>
-    <okhttp.v>3.8.0</okhttp.v>
-    <fastjson.v>1.2.33</fastjson.v>
+    <zookeeper.v>3.4.5</zookeeper.v>
     <cglib.v>3.2.5</cglib.v>
-    <beetl.v>2.7.16</beetl.v>
-    <snakeyaml.v>1.18</snakeyaml.v>
+    <okhttp.v>3.8.0</okhttp.v>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.v}</version>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>${cglib.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.zookeeper</groupId>
+      <artifactId>zookeeper</artifactId>
+      <version>${zookeeper.v}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -36,16 +42,17 @@
       <version>${okhttp.v}</version>
     </dependency>
 
+    <!-- tools -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.v}</version>
+    </dependency>
+
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
       <version>${fastjson.v}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>cglib</groupId>
-      <artifactId>cglib</artifactId>
-      <version>${cglib.v}</version>
     </dependency>
 
     <dependency>

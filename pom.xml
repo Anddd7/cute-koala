@@ -16,6 +16,14 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.jdk.v>1.8</project.build.jdk.v>
+
+    <junit.v>RELEASE</junit.v>
+    <guava.v>RELEASE</guava.v>
+    <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
+    <lombok.v>RELEASE</lombok.v>
+    <fastjson.v>1.2.33</fastjson.v>
+    <beetl.v>2.7.16</beetl.v>
+    <snakeyaml.v>1.18</snakeyaml.v>
   </properties>
 
   <build>

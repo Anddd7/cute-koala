@@ -32,7 +32,7 @@ public class HttpProxyObject implements MethodInterceptor {
   /**
    * 修改webservice为配置文件配置
    */
-  //private HttpServiceConfig serviceConfig;
+  //private RestfulServiceRegistry serviceConfig;
 
   /**
    * 创建代理对象 ,添加序列化工具

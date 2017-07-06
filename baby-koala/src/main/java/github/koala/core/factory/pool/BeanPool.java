@@ -53,11 +53,11 @@ public class BeanPool {
   /**
    * 添加Bean对象
    */
-  public void addBean(Class defineType, Class implementType, Boolean isSingleton) {
+  public void addBean(Class defineType, Class implementType, Boolean isSingleton,Boolean isRpc) throws Exception{
     BeanWrapper beanWrapper = beanCache.get(defineType);
     if (Objects.isNull(beanWrapper)) {
       //创建新的bean放入cache
-      beanWrapper = BeanWrapper.of(defineType, implementType, isSingleton);
+      beanWrapper = BeanWrapper.of(defineType, implementType, isSingleton,isRpc);
       beanCache.put(beanWrapper);
     } else {
       beanWrapper.checkConflict(implementType, isSingleton);

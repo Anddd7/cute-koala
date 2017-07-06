@@ -31,12 +31,13 @@ class KoalaModule {
   /**
    * 循环创建bean和引用的bean
    */
-  void createBean(Class defineType, Class implementType, Boolean isSingleton) {
+  void createBean(Class defineType, Class implementType, Boolean isSingleton,Boolean isRpc) {
     log.info("添加Bean[{} - {}]到缓冲池.", defineType.getSimpleName(), implementType.getSimpleName());
     try {
-      beanPool.addBean(defineType, implementType, isSingleton);
+      beanPool.addBean(defineType, implementType, isSingleton,isRpc);
     } catch (Exception e) {
       log.error(e.getMessage(), e);
+      System.exit(0);
     }
   }
 

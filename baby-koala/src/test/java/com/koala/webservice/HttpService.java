@@ -14,7 +14,7 @@ import java.util.Map;
  * @author edliao on 2017/6/21.
  * @description rpc
  */
-@HttpKoala("http://localhost:9999/api")
+@HttpKoala("Local999Api http://localhost:9999/api")
 public interface HttpService {
 
   @HttpKoalaMethod("/user")
@@ -29,3 +29,4 @@ public interface HttpService {
   @HttpKoalaMethod("/userMap")
   Map<String, User> getUserMap(@HttpKoalaParameter("name") String name);
 }
+

@@ -3,6 +3,9 @@ package github.koala.core.factory;
 import github.koala.core.annotation.Koala;
 import github.koala.core.annotation.Koala.ScopeEnum;
 import github.koala.core.annotation.Module;
+import github.koala.rpc.RpcServiceRegistry;
+import github.koala.rpc.consumer.Consumer;
+import github.koala.rpc.provider.Provider;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Objects;
@@ -71,7 +74,13 @@ class ModuleScanner {
     log.info("扫描Bean,声明类型[{}] ,实现类型[{}],是否单例[{}]", defineType.getName(), implementType.getName(),
         isSingleton);
 
-    beanModule.createBean(defineType, implementType, isSingleton);
+    //如果是RPC提供者 就把它发布出去
+    if (!Objects.isNull(field.getAnnotation(Provider.class))) {
+      RpcServiceRegistry.getRegistry().addService(defineType);
+    }
+
+    beanModule.createBean(defineType, implementType, isSingleton,
+        !Objects.isNull(field.getAnnotation(Consumer.class)));
 
     //递归扫描子模块
     log.info("开始扫描[{}]字段的依赖类[{}]", field.getName(), implementType.getSimpleName());

@@ -1,6 +1,7 @@
 package github.koala.zookeeper;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import github.and777.common.FormatTool;
 import github.koala.zookeeper.config.KoalaTreeConfig;
 import java.util.ArrayList;
@@ -21,20 +22,21 @@ import org.apache.zookeeper.data.Stat;
  * @description Client连接
  */
 @Slf4j
-public class TreeWatcherClient implements Watcher {
+public class KoalaWatcher implements Watcher {
 
   private static final Integer TIMEOUT = 5000;
 
   private ZooKeeper server;
-  private KoalaTreeConfig config;
 
+  private KoalaTreeConfig config;
   private AbstractEventHandler handler;
 
   /**
    * 连接ZooKeeper服务器
    */
-  public TreeWatcherClient(KoalaTreeConfig config) {
+  public KoalaWatcher(KoalaTreeConfig config, AbstractEventHandler handler) {
     this.config = config;
+    this.handler = handler;
     try {
       this.server = new ZooKeeper(config.getConnectString(), TIMEOUT, this);
       synchronized (this) {
@@ -63,20 +65,21 @@ public class TreeWatcherClient implements Watcher {
 
         case NodeDeleted:
           log.info("删除节点{}", path);
+          handler.handleServiceDelete(path);
           break;
 
         case NodeCreated:
           log.info("创建节点{}", path);
+          handler.handleServiceAdd(path, listenData(path));
           break;
 
         case NodeDataChanged:
-          Optional<byte[]> data = listenData(path);
-          data.ifPresent(d -> handler.handleChange(path, d));
-          log.info("节点{}数据变更:{}", path, data);
+          handler.handleServiceChange(path, listenData(path));
+          log.info("节点{}数据变更", path);
           break;
 
         case NodeChildrenChanged:
-          log.info("节点{}下子节点发生变化", path);
+          log.info("节点{}下子节点发生变化:[{}]", path, String.join(",", listenChildren(path)));
           break;
       }
     }
@@ -84,7 +87,7 @@ public class TreeWatcherClient implements Watcher {
 
 
   /**
-   * 公共方法
+   * 监听Node信息
    */
   private Optional<Stat> listenNode(String nodePath) {
     Stat stat = null;
@@ -96,6 +99,9 @@ public class TreeWatcherClient implements Watcher {
     return Optional.ofNullable(stat);
   }
 
+  /**
+   * 检查Node是否存在 ,不监听
+   */
   private Boolean existsNode(String nodePath) {
     Boolean exists = listenNode(nodePath).isPresent();
     if (exists) {
@@ -107,20 +113,41 @@ public class TreeWatcherClient implements Watcher {
   }
 
   /**
-   * 获取groupNode下的数据 ,并监听其变化
+   * 创建多级目录
    */
-  private Optional<byte[]> listenData(String nodePath) {
+  public void mkdirs(String path) throws Exception {
+    List<String> dirs = Splitter.on("/").omitEmptyStrings().splitToList(path);
+
+    String currentPath = "";
+    for (String dir : dirs) {
+      currentPath = currentPath + "/" + dir;
+      log.info("检查{}路径是否创建", currentPath);
+
+      if (server.exists(currentPath, false) == null) {
+        server.create(currentPath, dir.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE,
+            CreateMode.PERSISTENT);
+      }
+    }
+  }
+
+  /**
+   * 获取Node数据 ,并监听
+   */
+  private byte[] listenData(String nodePath) {
     byte[] bytes = null;
     try {
       bytes = server.getData(nodePath, true, null);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return Optional.ofNullable(bytes);
+    if (bytes != null) {
+      log.info("获取节点数据{}-{}", nodePath, new String(bytes));
+    }
+    return bytes;
   }
 
   /**
-   * 获取groupNode下的子节点 ,并监听子节点的变化
+   * 获取Node下的子节点 ,并监听子节点
    */
   private List<String> listenChildren(String nodePath) {
     List<String> children = new ArrayList<>();
@@ -136,7 +163,7 @@ public class TreeWatcherClient implements Watcher {
   }
 
   /**
-   * 监听节点/数据和子节点的节点/数据变化
+   * 递归检测Node及Node的子节点
    */
   private void listenPath(String nodePath) {
     listenNode(nodePath);
@@ -147,7 +174,7 @@ public class TreeWatcherClient implements Watcher {
   /**
    * 对外接口 ,存取数据节点
    */
-  public Optional<byte[]> getData(String path) {
+  public byte[] getData(String path) {
     return listenData(path);
   }
 

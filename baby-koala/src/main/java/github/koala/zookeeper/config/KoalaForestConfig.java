@@ -9,6 +9,7 @@ import lombok.Data;
  */
 @Data
 public class KoalaForestConfig {
+
   /**
    * POJO
    */
@@ -20,11 +21,27 @@ public class KoalaForestConfig {
    */
   private static final String CONFIG = "koala-forest.yaml";
 
-  public static KoalaForestConfig loadConfig() {
+  private static KoalaForestConfig loadConfig() {
     KoalaForestConfig config = YAMLScanner.getConfigInClassPath(CONFIG, KoalaForestConfig.class);
     config.getRpc().loadConfig();
     config.getWebservice().loadConfig();
     return config;
   }
 
+  /**
+   * static singleton
+   */
+  private static KoalaForestConfig forestConfig = loadConfig();
+
+  public static KoalaForestConfig getInstance() {
+    return forestConfig;
+  }
+
+  public static KoalaTreeConfig getRpcConfig() {
+    return forestConfig.rpc;
+  }
+
+  public static KoalaTreeConfig getWebserviceConfig() {
+    return forestConfig.webservice;
+  }
 }

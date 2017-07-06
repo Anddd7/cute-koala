@@ -1,6 +1,8 @@
 package github.koala.core.factory;
 
 import github.koala.core.bean.BeanWrapper;
+import github.koala.rpc.RpcServiceRegistry;
+import github.koala.rpc.provider.RpcServiceServer;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -31,6 +33,10 @@ public class KoalaFactory {
     return new KoalaFactory().build(modules);
   }
 
+  public static KoalaFactory of(Integer port, Class... modules) {
+    return new KoalaFactory().startRPC(port).build(modules);
+  }
+
   /**
    * 构建
    */
@@ -45,6 +51,12 @@ public class KoalaFactory {
 
     log.info("Factory加载完毕,耗时[{}]ms", Duration.between(start, Instant.now()).toMillis());
     log.info("----------------------------------------------\n");
+    return this;
+  }
+
+  private KoalaFactory startRPC(Integer port) {
+    RpcServiceServer server = new RpcServiceServer(port);
+    RpcServiceRegistry.initRegistry(server);
     return this;
   }
 

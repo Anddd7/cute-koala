@@ -33,4 +33,6 @@ public class TemplateGeneratorTest {
     KoalaFactory beanFactory = KoalaFactory.of(Class.forName("com.koala.UserHttpModule"));
     beanFactory.getBean(UserService.class).welcome();
   }
+
+
 }

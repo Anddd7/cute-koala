@@ -1,7 +1,8 @@
 package github.koala.rpc.consumer;
 
 import com.google.common.base.Strings;
-import github.koala.rpc.RpcProtocol;
+import github.koala.rpc.RpcRequestProtocol;
+import github.koala.rpc.RpcResponseProtocol;
 import github.koala.rpc.RpcServiceRegistry;
 import java.lang.reflect.Method;
 import java.time.Duration;
@@ -26,7 +27,6 @@ public class RpcProxyObject implements MethodInterceptor {
 
   RpcServiceClient rpcServiceClient;
 
-
   Boolean isServiceOnline;
 
   public RpcProxyObject(Class classType) {
@@ -37,9 +37,15 @@ public class RpcProxyObject implements MethodInterceptor {
 
   public void fetchService() {
     this.rpcUrl = RpcServiceRegistry.getRegistry().getService(classType);
-    this.rpcServiceClient = RpcServiceClient.addClient(rpcUrl);
+    log.info("获取目标服务{}地址{}", className, rpcUrl);
+
     this.isServiceOnline = !Strings.isNullOrEmpty(rpcUrl);
-    log.info("获取目标服务{}地址{}", className,rpcUrl);
+    log.info("服务已上线?" + isServiceOnline);
+
+    if (isServiceOnline) {
+      this.rpcServiceClient = RpcServiceClient.addClient(rpcUrl);
+      log.info("已连接到服务");
+    }
   }
 
   @Override
@@ -66,13 +72,17 @@ public class RpcProxyObject implements MethodInterceptor {
       rpcServiceClient.reconnect();
     }
 
-    RpcProtocol protocol = new RpcProtocol(className, method.getName(), Arrays.asList(args));
+    RpcRequestProtocol protocol = new RpcRequestProtocol(className, method.getName(),
+        Arrays.asList(args));
     String result = rpcServiceClient.send(protocol.serialization());
+    RpcResponseProtocol rpcResponseProtocol = RpcResponseProtocol.deserialization(result);
+    Object resultObj = rpcResponseProtocol.deserializationResultObject(method.getReturnType());
 
     log.info("[{}]远程方法[{}]代理执行时间:[{}]", className, method.getName(),
         Duration.between(start, Instant.now()).toMillis());
     log.info("----------------------------------------------\n");
-    return result;
+
+    return resultObj;
   }
 
   /**

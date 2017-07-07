@@ -1,5 +1,6 @@
 package github.koala.rpc.consumer;
 
+import github.koala.rpc.RpcResponseProtocol;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -18,7 +19,9 @@ public class RpcServiceClient {
   public static final Map<String, RpcServiceClient> clients = new HashMap<>();
 
   public static RpcServiceClient addClient(String url) {
-    return clients.put(url, new RpcServiceClient(url));
+    RpcServiceClient client = new RpcServiceClient(url);
+    clients.put(url, client);
+    return client;
   }
 
   public static String send(String url, String bytes) {
@@ -30,14 +33,14 @@ public class RpcServiceClient {
 
   RpcServiceClient(String url) {
     try {
-      log.info("创建NIO连接:{}",url);
+      log.info("创建NIO连接:{}", url);
       String[] hostAndPort = url.split(":");
       address = new InetSocketAddress(hostAndPort[0], Integer.valueOf(hostAndPort[1]));
 
       //阻塞模式
       socketChannel = SocketChannel.open();
       socketChannel.connect(address);
-      socketChannel.finishConnect();
+      //socketChannel.finishConnect();
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -50,6 +53,7 @@ public class RpcServiceClient {
       e.printStackTrace();
     }
   }
+
   public boolean isConnected() {
     return socketChannel.isConnected();
   }

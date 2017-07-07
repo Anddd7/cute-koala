@@ -56,7 +56,7 @@ public class KoalaFactory {
 
   private KoalaFactory startRPC(Integer port) {
     RpcServiceServer server = new RpcServiceServer(port);
-    RpcServiceRegistry.initRegistry(server);
+    RpcServiceRegistry.initRegistry(this,server);
     return this;
   }
 

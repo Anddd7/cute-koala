@@ -1,8 +1,7 @@
 package github.koala.rpc.provider;
 
-import github.koala.core.factory.KoalaFactory;
-import github.koala.core.factory.pool.BeanPool;
-import github.koala.rpc.RpcProtocol;
+import github.koala.rpc.RpcRequestProtocol;
+import github.koala.rpc.RpcServiceRegistry;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -143,15 +142,12 @@ public class RpcServiceServer {
     CharBuffer charBuffer = decoder.decode(buf);
     String msg = charBuffer.toString();
 
-    RpcProtocol rpcProtocol = RpcProtocol.deserialization(msg);
+    log.info("收到信息{} ,开始调用进行处理", msg);
 
+    RpcRequestProtocol rpcProtocol = RpcRequestProtocol.deserialization(msg);
+    String result = RpcServiceRegistry.getRegistry().executeService(rpcProtocol).serialization();
 
-
-
-
-
-
-    return null;
+    return result.getBytes();
   }
 
 }

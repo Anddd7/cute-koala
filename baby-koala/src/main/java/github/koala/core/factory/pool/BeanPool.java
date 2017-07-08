@@ -1,6 +1,6 @@
 package github.koala.core.factory.pool;
 
-import github.and777.common.CollectionTool;
+import github.eddy.common.CollectionTool;
 import github.koala.core.annotation.Koala;
 import github.koala.core.bean.BeanWrapper;
 import github.koala.webservice.resetful.HttpProxyBeanFactory;

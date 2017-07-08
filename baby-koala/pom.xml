@@ -48,47 +48,15 @@
 
     <!-- tools -->
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.v}</version>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql-jdbc.v}</version>
     </dependency>
 
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>fastjson</artifactId>
-      <version>${fastjson.v}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>com.ibeetl</groupId>
-      <artifactId>beetl</artifactId>
-      <version>${beetl.v}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-      <version>${snakeyaml.v}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${slf4j-log4j12.v}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.v}</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.v}</version>
-      <scope>provided</scope>
+      <groupId>github.koalaman</groupId>
+      <artifactId>common-utils</artifactId>
+      <version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

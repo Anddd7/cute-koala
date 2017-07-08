@@ -1,11 +1,14 @@
 package github.koala;
 
 import com.koala.services.UserService;
-import github.and777.common.FileSystemTool;
-import github.and777.common.YAMLScanner;
+import github.eddy.common.FileSystemTool;
+import github.eddy.common.YAMLScanner;
 import github.koala.core.factory.KoalaFactory;
-import github.koala.generator.TemplateGenerator;
+import github.koala.generator.KoalaGenerator;
 import github.koala.generator.domain.ConfigDefine;
+import github.koala.orm.conn.DBConnection;
+import github.koala.orm.conn.MysqlConnection;
+import github.koala.orm.util.Generator;
 import org.junit.Test;
 
 /**
@@ -16,14 +19,14 @@ public class TemplateGeneratorTest {
 
   @Test
   public void testYaml() {
-    new TemplateGenerator()
+    new KoalaGenerator()
         .generate(FileSystemTool.getProjectPath() + "/generator-test/",
             YAMLScanner.getConfigInClassPath("template/modules-define.yaml", ConfigDefine.class));
   }
 
   @Test
   public void testWithBeanFactory() {
-    new TemplateGenerator()
+    new KoalaGenerator()
         .generate(FileSystemTool.getProjectPath() + "/src/test/java/",
             YAMLScanner.getConfigInClassPath("template/modules-define.yaml", ConfigDefine.class));
   }
@@ -34,5 +37,11 @@ public class TemplateGeneratorTest {
     beanFactory.getBean(UserService.class).welcome();
   }
 
+  @Test
+  public void test1(){
+    DBConnection connection = new MysqlConnection("localhost:3306/sakila","root","root");
+    Generator generator = new Generator(connection);
+    generator.generate("src/test/java","com.koala.orm","actor");
+  }
 
 }

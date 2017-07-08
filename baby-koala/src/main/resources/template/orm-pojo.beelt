@@ -1,0 +1,19 @@
+package ${koalaTG.packageName};
+
+<%
+for(importClass in koalaTG.importClasses){
+    print("import "+importClass+";\n");
+}
+%>
+/**
+ * @author edliao on Auto generate.
+ */
+@lombok.Data
+public class ${koalaTG.pojoName} {
+
+<%
+for(field in koalaTG.fields){
+    print("\t"+field+";\n");
+}
+%>
+}

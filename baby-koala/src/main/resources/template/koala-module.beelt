@@ -1,13 +1,13 @@
-package ${module.packageName};
+package ${koalaTG.packageName};
 
 /**
  * @author edliao on Auto generate.
  */
 @github.koala.core.annotation.Module
-public class ${module.moduleName} {
+public class ${koalaTG.moduleName} {
 
 <%
-for(bean in module.beans){
+for(bean in koalaTG.beans){
     print("\t@github.koala.core.annotation.Koala"+bean.annotation+"\n");
     print("\t"+bean.path+" "+bean.beanName+";\n\n");
 }

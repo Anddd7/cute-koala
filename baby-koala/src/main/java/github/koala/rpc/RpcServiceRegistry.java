@@ -1,6 +1,6 @@
 package github.koala.rpc;
 
-import github.and777.common.CollectionTool;
+import github.eddy.common.CollectionTool;
 import github.koala.core.factory.KoalaFactory;
 import github.koala.rpc.provider.RpcServiceServer;
 import github.koala.zookeeper.AbstractServiceRegistry;

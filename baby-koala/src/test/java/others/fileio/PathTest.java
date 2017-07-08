@@ -1,7 +1,7 @@
 package others.fileio;
 
-import github.and777.common.FileSystemTool;
-import github.and777.common.PatternTool;
+import github.eddy.common.FileSystemTool;
+import github.eddy.common.PatternTool;
 import org.junit.Test;
 
 /**

@@ -1,0 +1,19 @@
+package ${koalaTG.packageName};
+
+<%
+for(importClass in koalaTG.importClasses){
+    print("import "+importClass+";\n");
+}
+%>
+
+/**
+ * @author edliao on Auto generate.
+ */
+public interface ${koalaTG.pojoName}Dao {
+
+  <%
+  for(method in koalaTG.methods){
+      print("\n"+method+";\n");
+  }
+  %>
+}

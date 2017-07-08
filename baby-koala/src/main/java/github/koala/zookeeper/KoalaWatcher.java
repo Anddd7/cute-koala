@@ -2,7 +2,7 @@ package github.koala.zookeeper;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
-import github.and777.common.FormatTool;
+import github.eddy.common.FormatTool;
 import github.koala.zookeeper.config.KoalaTreeConfig;
 import java.util.ArrayList;
 import java.util.List;

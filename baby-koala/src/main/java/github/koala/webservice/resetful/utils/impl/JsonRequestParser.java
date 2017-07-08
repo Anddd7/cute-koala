@@ -1,7 +1,8 @@
 package github.koala.webservice.resetful.utils.impl;
 
 import com.alibaba.fastjson.JSON;
-import github.and777.common.CollectionTool;
+
+import github.eddy.common.CollectionTool;
 import github.koala.webservice.resetful.annotation.HttpKoalaParameter;
 import github.koala.webservice.resetful.utils.AbstractRequestParser;
 import java.lang.reflect.Method;

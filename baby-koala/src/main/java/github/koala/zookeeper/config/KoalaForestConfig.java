@@ -1,6 +1,6 @@
 package github.koala.zookeeper.config;
 
-import github.and777.common.YAMLScanner;
+import github.eddy.common.YAMLScanner;
 import lombok.Data;
 
 /**

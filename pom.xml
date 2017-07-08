@@ -11,6 +11,8 @@
 
   <modules>
     <module>baby-koala</module>
+    <module>little-koala</module>
+    <module>common-utils</module>
   </modules>
 
   <properties>
@@ -18,13 +20,36 @@
     <project.build.jdk.v>1.8</project.build.jdk.v>
 
     <junit.v>RELEASE</junit.v>
-    <guava.v>RELEASE</guava.v>
     <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
     <lombok.v>RELEASE</lombok.v>
     <fastjson.v>1.2.33</fastjson.v>
+    <mysql-jdbc.v>6.0.6</mysql-jdbc.v>
+    <guava.v>RELEASE</guava.v>
     <beetl.v>2.7.16</beetl.v>
     <snakeyaml.v>1.18</snakeyaml.v>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>${slf4j-log4j12.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.v}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.v}</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>

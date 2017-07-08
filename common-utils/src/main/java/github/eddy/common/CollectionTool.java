@@ -1,15 +1,23 @@
-package github.and777.common;
+package github.eddy.common;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
  * @author edliao on 2017/6/23.
  * @description 数组List工具补充
+ *
+ * 关于 Arrays.asList vs List.toArray ,操作List和Array谁更快
+ * @:1 get(i) vs [i]  : list内部只多了checkRange ,在可用的index内效率几乎没有差别 (单行代码执行非常快)
+ * @:2 对于一些方法需要接受数组/List作为参数 ,在测试中把Array -> List速度会比 List->Array 更快
+ * @:3 List易用
+ *
+ * 通用的底层实现用List操作 ,接受Array参数然后转向List
  */
 public class CollectionTool {
 
@@ -67,5 +75,19 @@ public class CollectionTool {
    */
   public static <K, V> void dealFirst(Map<K, V> map, Predicate<K> predicate, Consumer<V> consumer) {
     getFirst(map, predicate).ifPresent(consumer);
+  }
+
+  /**
+   * 同时操作2个数组
+   */
+  public static <L, R> void merge(L[] left, R[] right, BiConsumer<L, R> biConsumer) {
+    merge(Arrays.asList(left), Arrays.asList(right), biConsumer);
+  }
+
+  public static <L, R> void merge(List<L> left, List<R> right, BiConsumer<L, R> biConsumer) {
+    int count = left.size() < right.size() ? left.size() : right.size();
+    for (int i = 0; i < count; i++) {
+      biConsumer.accept(left.get(i), right.get(i));
+    }
   }
 }

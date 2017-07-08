@@ -1,4 +1,4 @@
-package github.and777.common;
+package github.eddy.common;
 
 import com.google.common.io.Files;
 import java.io.File;

@@ -1,10 +1,10 @@
 package github.koala.orm.conn;
 
 import com.mysql.cj.core.result.Field;
-import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 /**
  * @author edliao on 2017/7/7.
@@ -14,9 +14,20 @@ public interface DBConnection {
 
   Field[] fetchField(String tableName);
 
-  Object executeQuery(Method method);
+  <T> T executeQuery(String sql, List<Object> attrs, Class<T> pojoClass);
 
-  int execute();
+  <T, C> C executeQuery(String sql, List<Object> attrs, Class<T> pojoClass,
+      Class<C> collectionType);
+
+  int executeUpdate(String sql);
+
+  int executeUpdate(String sql, List<Object> attrs);
+
+  String getHostAndPort();
+
+  String getSchema();
+
+  String getConnectUrl();
 
   default void closeRsAndStmt(ResultSet rs, Statement statement) {
     try {

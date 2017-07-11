@@ -5,9 +5,7 @@ import github.eddy.common.TemplateGenerator;
 import github.koala.orm.conn.DBConnection;
 import github.koala.orm.util.meta.ColumnMeta;
 import github.koala.orm.util.meta.TableMeta;
-import github.koala.orm.util.template.Temp4Implement;
-import github.koala.orm.util.template.Temp4Interface;
-import github.koala.orm.util.template.Temp4POJO;
+import github.koala.orm.util.template.Template4ORM;
 import java.util.Arrays;
 
 /**
@@ -22,19 +20,19 @@ public class Generator {
     this.connection = connection;
   }
 
-  public void generate(String sourcePath,String packagePath,String tableName) {
+  public void generate(String sourcePath, String packagePath, String tableName) {
     TableMeta tableMeta = generateMeta(tableName);
 
     TemplateGenerator generator = new TemplateGenerator();
 
-    Temp4POJO.from(sourcePath ,packagePath,tableMeta).generateTo(generator);
-    Temp4Interface.from(sourcePath ,packagePath,tableMeta).generateTo(generator);
-    Temp4Implement.from(sourcePath ,packagePath,tableMeta).generateTo(generator);
+    Template4ORM temp4POJO = Template4ORM.from(sourcePath, packagePath, tableMeta);
+    temp4POJO.generateTo(generator);
   }
 
   TableMeta generateMeta(String tableName) {
     TableMeta tableMeta = new TableMeta();
     tableMeta.setTableName(tableName);
+    tableMeta.setSchemaName(connection.getSchema());
 
     Field[] fields = connection.fetchField(tableName);
     Arrays.asList(fields).forEach(field -> {
@@ -49,6 +47,8 @@ public class Generator {
 
       if (field.isPrimaryKey()) {
         tableMeta.addPrimaryKey(columnMeta);
+      } else {
+        tableMeta.addNotKeyColumns(columnMeta);
       }
       tableMeta.addColumn(columnMeta);
     });

@@ -1,14 +1,20 @@
 package github.koala;
 
+import com.alibaba.fastjson.JSON;
+import com.koala.orm.dao.ActorDao;
+import com.koala.orm.dao.impl.ActorDaoImpl;
+import com.koala.orm.domian.Actor;
 import com.koala.services.UserService;
 import github.eddy.common.FileSystemTool;
 import github.eddy.common.YAMLScanner;
 import github.koala.core.factory.KoalaFactory;
 import github.koala.generator.KoalaGenerator;
 import github.koala.generator.domain.ConfigDefine;
+import github.koala.orm.DataBasePool;
 import github.koala.orm.conn.DBConnection;
 import github.koala.orm.conn.MysqlConnection;
 import github.koala.orm.util.Generator;
+import java.util.List;
 import org.junit.Test;
 
 /**
@@ -38,10 +44,21 @@ public class TemplateGeneratorTest {
   }
 
   @Test
-  public void test1(){
-    DBConnection connection = new MysqlConnection("localhost:3306/sakila","root","root");
+  public void testORMGenerate() {
+    DBConnection connection = new MysqlConnection("localhost:3306", "sakila", "root", "root");
     Generator generator = new Generator(connection);
-    generator.generate("src/test/java","com.koala.orm","actor");
+    generator.generate("src/test/java", "com.koala.orm", "actor");
   }
 
+
+  @Test
+  public void testORMCall() {
+    DBConnection connection = new MysqlConnection("localhost:3306", "sakila", "root", "root");
+    DataBasePool.addDBConnection(connection);
+    ActorDao dao = new ActorDaoImpl();
+    Actor example = new Actor();
+    example.setActorId(195);
+    List<Actor> actors = dao.selectByExample(example,0,10);
+    actors.forEach(actor -> System.out.println(JSON.toJSONString(actor)));
+  }
 }

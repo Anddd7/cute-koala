@@ -11,9 +11,15 @@ import lombok.Data;
 @Data
 public class TableMeta {
 
+  String schemaName;
   String tableName;
   List<ColumnMeta> primaryKeys = new ArrayList<>();
   List<ColumnMeta> columns = new ArrayList<>();//last_name,12,java.lang.String
+  List<ColumnMeta> notKeyColumns = new ArrayList<>();
+
+  public void addNotKeyColumns(ColumnMeta columnMeta) {
+    notKeyColumns.add(columnMeta);
+  }
 
   public void addColumn(ColumnMeta columnMeta) {
     columns.add(columnMeta);

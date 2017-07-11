@@ -6,7 +6,6 @@ import java.sql.Timestamp;
  */
 @lombok.Data
 public class Actor {
-
 	Integer actorId;
 	String firstName;
 	String lastName;

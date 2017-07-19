@@ -1,6 +1,6 @@
-package com.koala.services.impl;
+package com.koala.normal.services.impl;
 
-import com.koala.services.RpcSecond;
+import com.koala.normal.services.RpcSecond;
 
 /**
  * @author edliao on 2017/7/6.

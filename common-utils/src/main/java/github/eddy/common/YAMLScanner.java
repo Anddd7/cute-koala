@@ -1,5 +1,6 @@
 package github.eddy.common;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.URL;
 import lombok.extern.slf4j.Slf4j;
@@ -20,21 +21,16 @@ public class YAMLScanner {
   /**
    * 按class类型加载yaml配置
    */
-  private static <T> T loadConfig(URL url, Class<T> targetClass) {
-    T config = null;
-    try {
-      config = scanner.loadAs(new FileReader(url.getFile()), targetClass);
-    } catch (Exception e) {
-      log.error("", e);
-    }
-    return config;
+  private static <T> T loadConfig(URL url, Class<T> targetClass) throws FileNotFoundException {
+    return scanner.loadAs(new FileReader(url.getFile()), targetClass);
   }
 
-  public static <T> T getConfig(URL url, Class<T> targetClass) {
+  public static <T> T getConfig(URL url, Class<T> targetClass) throws FileNotFoundException {
     return loadConfig(url, targetClass);
   }
 
-  public static <T> T getConfigInClassPath(String path, Class<T> targetClass) {
+  public static <T> T getConfigInClassPath(String path, Class<T> targetClass)
+      throws FileNotFoundException {
     return getConfig(YAMLScanner.class.getClassLoader().getResource(path), targetClass);
   }
 

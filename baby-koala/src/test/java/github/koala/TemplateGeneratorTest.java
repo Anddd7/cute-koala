@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.koala.orm.dao.ActorDao;
 import com.koala.orm.dao.impl.ActorDaoImpl;
 import com.koala.orm.domian.Actor;
-import com.koala.services.UserService;
+import com.koala.normal.services.UserService;
 import github.eddy.common.FileSystemTool;
 import github.eddy.common.YAMLScanner;
 import github.koala.core.factory.KoalaFactory;
@@ -14,6 +14,7 @@ import github.koala.orm.DataBasePool;
 import github.koala.orm.conn.DBConnection;
 import github.koala.orm.conn.MysqlConnection;
 import github.koala.orm.util.Generator;
+import java.io.FileNotFoundException;
 import java.util.List;
 import org.junit.Test;
 
@@ -24,14 +25,14 @@ import org.junit.Test;
 public class TemplateGeneratorTest {
 
   @Test
-  public void testYaml() {
+  public void testYaml() throws FileNotFoundException {
     new KoalaGenerator()
         .generate(FileSystemTool.getProjectPath() + "/generator-test/",
             YAMLScanner.getConfigInClassPath("template/modules-define.yaml", ConfigDefine.class));
   }
 
   @Test
-  public void testWithBeanFactory() {
+  public void testWithBeanFactory() throws FileNotFoundException {
     new KoalaGenerator()
         .generate(FileSystemTool.getProjectPath() + "/src/test/java/",
             YAMLScanner.getConfigInClassPath("template/modules-define.yaml", ConfigDefine.class));

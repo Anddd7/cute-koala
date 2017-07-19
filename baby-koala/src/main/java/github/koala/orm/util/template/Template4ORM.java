@@ -91,7 +91,9 @@ public class Template4ORM {
     }
   }
 
-  public void generateTo(TemplateGenerator generator) {
+  public void generateTo() {
+    TemplateGenerator generator = new TemplateGenerator();
+
     String filePath =
         FileSystemTool.getProjectPath() + "/" + sourcePath + "/" + packageName.replace(".", "/");
 

@@ -2,8 +2,8 @@ package github.koala;
 
 import com.koala.RpcBackModule;
 import com.koala.RpcModule;
-import com.koala.services.RpcFirst;
-import com.koala.services.RpcSecond;
+import com.koala.normal.services.RpcFirst;
+import com.koala.normal.services.RpcSecond;
 import github.koala.core.factory.KoalaFactory;
 import org.junit.Test;
 

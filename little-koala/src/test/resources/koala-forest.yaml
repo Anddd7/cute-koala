@@ -1,0 +1,10 @@
+rpc:
+  server:
+  - localhost:2181:2881:3881
+  - localhost:2182:2882:3882
+  - localhost:2183:2883:3883
+
+webservice:
+  server:
+    - localhost:2184:2884:3884
+    - localhost:2185:2885:3885

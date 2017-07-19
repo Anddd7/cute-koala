@@ -1,7 +1,7 @@
 package com.koala;
 
-import com.koala.services.UserService;
-import com.koala.services.impl.UserServiceImpl;
+import com.koala.normal.services.UserService;
+import com.koala.normal.services.impl.UserServiceImpl;
 import com.koala.utils.RandomTool;
 import com.koala.webservice.HttpService;
 import github.koala.core.annotation.Koala;

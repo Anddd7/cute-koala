@@ -1,8 +1,8 @@
-package com.koala.services.impl;
+package com.koala.normal.services.impl;
 
 import com.koala.daos.UserDao;
 import com.koala.daos.impl.UserDaoImpl;
-import com.koala.services.UserService;
+import com.koala.normal.services.UserService;
 import com.koala.utils.RandomTool;
 import github.koala.core.annotation.Koala;
 import github.koala.core.annotation.Koala.ScopeEnum;

@@ -1,7 +1,8 @@
 package github.koala.orm.conn;
 
-import com.mysql.cj.core.result.Field;
 import com.mysql.cj.jdbc.result.ResultSetMetaData;
+import github.koala.orm.util.meta.ColumnMeta;
+import github.koala.orm.util.meta.TableMeta;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -48,21 +50,42 @@ public class MysqlConnection implements DBConnection {
   }
 
   @Override
-  public Field[] fetchField(String tableName) {
+  public TableMeta fetchField(String tableName) {
+    TableMeta tableMeta = new TableMeta();
+    tableMeta.setTableName(tableName);
+    tableMeta.setSchemaName(this.getSchema());
+
     Statement statement = null;
     ResultSet rs = null;
+
     try {
       statement = conn.createStatement();
       rs = statement.executeQuery("select * from " + tableName + " limit 0,0");
 
-      ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
-      return metaData.getFields();
+      Stream.of(((ResultSetMetaData) rs).getFields())
+          .forEach(field -> {
+            ColumnMeta columnMeta = new ColumnMeta();
+            columnMeta.setColumnName(field.getName());
+            columnMeta.setColumnType(field.getMysqlType().getName());
+            try {
+              columnMeta.setColumnClass(Class.forName(field.getMysqlType().getClassName()));
+            } catch (ClassNotFoundException e) {
+              e.printStackTrace();
+            }
+
+            if (field.isPrimaryKey()) {
+              tableMeta.addPrimaryKey(columnMeta);
+            } else {
+              tableMeta.addNotKeyColumns(columnMeta);
+            }
+            tableMeta.addColumn(columnMeta);
+          });
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
       closeRsAndStmt(rs, statement);
     }
-    return null;
+    return tableMeta;
   }
 
   @Override
@@ -73,8 +96,8 @@ public class MysqlConnection implements DBConnection {
   @Override
   public <T, C> C executeQuery(String sql, List<Object> attrs, Class<T> pojoClass,
       Class<C> collectionType) {
-    System.out.println("SQL : "+sql);
-    System.out.println("ATTRS : "+attrs);
+    System.out.println("SQL : " + sql);
+    System.out.println("ATTRS : " + attrs);
 
     PreparedStatement statement = null;
     ResultSet rs = null;
@@ -82,7 +105,7 @@ public class MysqlConnection implements DBConnection {
       statement = conn.prepareStatement(sql);
       if (!Objects.isNull(attrs)) {
         for (int i = 0; i < attrs.size(); i++) {
-          statement.setObject(i+1, attrs.get(i));
+          statement.setObject(i + 1, attrs.get(i));
         }
       }
       rs = statement.executeQuery();
@@ -93,7 +116,7 @@ public class MysqlConnection implements DBConnection {
         java.lang.reflect.Field[] fields = pojoClass.getDeclaredFields();
         for (int i = 0; i < fields.length; i++) {
           fields[i].setAccessible(true);
-          fields[i].set(pojo, rs.getObject(i+1));
+          fields[i].set(pojo, rs.getObject(i + 1));
         }
 
         if (collectionType.equals(pojoClass)) {
@@ -117,8 +140,8 @@ public class MysqlConnection implements DBConnection {
 
   @Override
   public int executeUpdate(String sql, List<Object> attrs) {
-    System.out.println("SQL : "+sql);
-    System.out.println("ATTRS : "+attrs);
+    System.out.println("SQL : " + sql);
+    System.out.println("ATTRS : " + attrs);
 
     PreparedStatement statement = null;
     ResultSet rs = null;

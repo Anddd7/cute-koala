@@ -1,4 +1,4 @@
-package com.koala.services;
+package com.koala.normal.services;
 
 /**
  * @author edliao on 2017/7/6.

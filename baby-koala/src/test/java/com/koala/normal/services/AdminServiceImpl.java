@@ -1,4 +1,4 @@
-package com.koala.services;
+package com.koala.normal.services;
 
 import com.koala.daos.UserDao;
 import com.koala.daos.impl.AdminDaoImpl;

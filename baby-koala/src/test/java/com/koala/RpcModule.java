@@ -1,8 +1,8 @@
 package com.koala;
 
-import com.koala.services.RpcFirst;
-import com.koala.services.RpcSecond;
-import com.koala.services.impl.RpcFirstImpl;
+import com.koala.normal.services.RpcFirst;
+import com.koala.normal.services.RpcSecond;
+import com.koala.normal.services.impl.RpcFirstImpl;
 import github.koala.core.annotation.Koala;
 import github.koala.core.annotation.Module;
 import github.koala.rpc.consumer.Consumer;

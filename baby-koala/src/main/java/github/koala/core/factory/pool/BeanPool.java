@@ -137,7 +137,7 @@ public class BeanPool {
   }
 
   /**
-   * 把#instance set到需要它的 #parent 对象的 #filed 字段中
+   * 把#object set到需要它的 #parent 对象的 #filed 字段中
    */
   private void resolveRely(Object parent, Field field, Object instance) {
     try {

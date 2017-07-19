@@ -11,11 +11,53 @@
 
   <artifactId>little-koala</artifactId>
 
+  <properties>
+    <zookeeper.v>3.4.5</zookeeper.v>
+    <cglib.v>3.2.5</cglib.v>
+    <okhttp.v>3.8.0</okhttp.v>
+    <netty.v>4.1.12.Final</netty.v>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>github.koalaman</groupId>
       <artifactId>common-utils</artifactId>
       <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>${cglib.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.zookeeper</groupId>
+      <artifactId>zookeeper</artifactId>
+      <version>${zookeeper.v}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>log4j</groupId>
+          <artifactId>log4j</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- tools -->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>${mysql-jdbc.v}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>${netty.v}</version>
     </dependency>
   </dependencies>
 </project>

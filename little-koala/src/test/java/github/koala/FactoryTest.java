@@ -1,6 +1,7 @@
 package github.koala;
 
 import com.alibaba.fastjson.JSON;
+import com.koala.mvc.KoalaServletTest;
 import com.koala.normal.ExportModule;
 import com.koala.normal.ImportModule;
 import com.koala.normal.Module;
@@ -16,6 +17,7 @@ import com.koala.rpc.beans.User;
 import com.koala.rpc.services.OrderService;
 import com.koala.rpc.services.UserService;
 import github.koala.core.KoalaTree;
+import github.koala.mvc.KoalaOnJetty;
 import github.koala.orm.DataBasePool;
 import github.koala.orm.conn.DBConnection;
 import github.koala.orm.conn.MysqlConnection;
@@ -85,7 +87,7 @@ public class FactoryTest {
       OrderService orderService = order.getKoala(OrderService.class);
       UserService userService = order.getKoala(UserService.class);
 
-      User eddy = userService.getUser("eddy",23);
+      User eddy = userService.getUser("eddy", 23);
       orderService.createOrder(eddy);
     }, "Import<<<-");
 
@@ -110,7 +112,15 @@ public class FactoryTest {
     ActorDao dao = new ActorDaoImpl();
     Actor example = new Actor();
     //example.setActorId(195);
-    List<Actor> actors = dao.selectByExample(example,0,10);
+    List<Actor> actors = dao.selectByExample(example, 0, 10);
     actors.forEach(actor -> System.out.println(JSON.toJSONString(actor)));
+  }
+
+  @Test
+  public void testJetty() throws Exception {
+    DBConnection connection = new MysqlConnection("localhost:3306", "sakila", "root", "root");
+    DataBasePool.addDBConnection(connection);
+
+    KoalaOnJetty.startKoalaOnJetty(9999, UserModule.class, KoalaServletTest.class);
   }
 }

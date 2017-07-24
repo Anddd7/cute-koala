@@ -15,7 +15,7 @@
     <zookeeper.v>3.4.5</zookeeper.v>
     <cglib.v>3.2.5</cglib.v>
     <okhttp.v>3.8.0</okhttp.v>
-    <netty.v>4.1.12.Final</netty.v>
+    <jetty.v>9.4.6.v20170531</jetty.v>
   </properties>
 
   <dependencies>
@@ -55,9 +55,16 @@
     </dependency>
 
     <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>${netty.v}</version>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>${jetty.v}</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-servlet</artifactId>
+      <version>${jetty.v}</version>
+    </dependency>
+
   </dependencies>
 </project>

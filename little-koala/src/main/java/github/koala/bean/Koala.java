@@ -23,11 +23,11 @@ public class Koala {
   public Koala(Class implementClazz, Boolean isSingleton, AbstractRegistry registry) {
     this.implementClazz = implementClazz;
     this.isSingleton = isSingleton;
+    this.registry = registry;
     //singleton create instance when register
     if (isSingleton) {
       this.object = newInstanceOfObject();
     }
-    this.registry = registry;
   }
 
   void checkConflict(Class implementClazz, Boolean isSingleton) {

@@ -17,7 +17,8 @@ public class FileSystemTool {
    * 获取classpath
    */
   public static String getAbsoluteClassPath() {
-    return Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+    return path.substring(1, path.length());
   }
 
   /**

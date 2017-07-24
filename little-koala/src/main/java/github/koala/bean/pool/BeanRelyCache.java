@@ -1,6 +1,6 @@
 package github.koala.bean.pool;
 
-import static github.eddy.common.CollectionTool.getOrElse;
+import static github.eddy.common.CompareTool.getOrElse;
 import static github.eddy.common.ReflectTool.setFieldOfObject;
 
 import github.koala.bean.Koala;

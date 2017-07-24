@@ -19,10 +19,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author edliao on 2017/7/6.
- * @description TODO
- */
 @Slf4j
 public class RpcServiceServer {
 

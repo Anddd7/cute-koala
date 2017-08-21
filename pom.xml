@@ -13,18 +13,19 @@
     <module>baby-koala</module>
     <module>little-koala</module>
     <module>common-utils</module>
+    <module>koalakoala</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.jdk.v>1.8</project.build.jdk.v>
 
-    <junit.v>RELEASE</junit.v>
+    <junit.v>4.12</junit.v>
     <slf4j-log4j12.v>1.7.5</slf4j-log4j12.v>
-    <lombok.v>RELEASE</lombok.v>
+    <lombok.v>1.16.18</lombok.v>
     <fastjson.v>1.2.33</fastjson.v>
     <mysql-jdbc.v>6.0.6</mysql-jdbc.v>
-    <guava.v>RELEASE</guava.v>
+    <guava.v>22.0</guava.v>
     <beetl.v>2.7.16</beetl.v>
     <snakeyaml.v>1.18</snakeyaml.v>
   </properties>

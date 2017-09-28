@@ -12,16 +12,11 @@
   <artifactId>koalakoala</artifactId>
 
   <properties>
-    <jersey.v>2.25.1</jersey.v>
   </properties>
 
 
   <dependencies>
-    <dependency>
-      <groupId>org.glassfish.jersey.core</groupId>
-      <artifactId>jersey-server</artifactId>
-      <version>${jersey.v}</version>
-    </dependency>
+
   </dependencies>
 
 </project>

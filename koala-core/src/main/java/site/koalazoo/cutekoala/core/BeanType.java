@@ -7,5 +7,5 @@ package site.koalazoo.cutekoala.core;
  * Bean类型
  */
 public enum BeanType {
- Singleton,
+  Singleton, Provider, Consumer, Multiple;
 }

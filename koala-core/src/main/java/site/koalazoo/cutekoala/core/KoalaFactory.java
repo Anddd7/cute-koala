@@ -10,11 +10,10 @@ import java.io.IOException;
  */
 public class KoalaFactory {
 
-  public static final KoalaFactory FACTORY = new KoalaFactory();
+  private static final KoalaFactory FACTORY = new KoalaFactory();
 
   public static KoalaFactory run(String classpath) throws IOException {
     FACTORY.scanner.scanClasspath(classpath);
-
     return FACTORY;
   }
 

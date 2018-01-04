@@ -28,7 +28,7 @@ import org.junit.Test;
 public class FactoryTest {
 
   @Test
-  public void test() {
+  public void scanModule() {
     KoalaTree factory = KoalaTree.of(Module.class);
     //    Service1 service1 = factory.getKoala(Service1Impl.class);
     //    Service1 service11 = factory.getKoala(Service1.class);
@@ -102,7 +102,7 @@ public class FactoryTest {
   public void testORMGenerate() {
     DBConnection connection = new MysqlConnection("localhost:3306", "sakila", "root", "root");
     Generator generator = new Generator(connection);
-    generator.generate("src/test/java", "com.koala.orm", "actor");
+    generator.generate("src/scanModule/java", "com.koala.orm", "actor");
   }
 
   @Test

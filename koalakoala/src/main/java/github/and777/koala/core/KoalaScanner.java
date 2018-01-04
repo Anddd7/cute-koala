@@ -26,7 +26,6 @@ public class KoalaScanner {
 
   public void scanDir(String path){
     File file = new File(path);
-    file
 
   }
 

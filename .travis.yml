@@ -3,8 +3,8 @@ sudo: false
 script: mvn clean verify
 after_success:
   - mvn clean test
-#  - mvn jacoco:report
-#  - mvn coveralls:report -DrepoToken="${COVERALLS_TOKEN}"
+  - mvn jacoco:report
+  - mvn coveralls:report -DrepoToken="${COVERALLS_TOKEN}"
 
 env:
   global:

@@ -23,10 +23,18 @@ import site.koalazoo.cutekoala.common.KoalaException;
 @Slf4j
 public class KoalaScanner {
 
+  public static final List<String> outputPaths = new ArrayList<>();
+
   public static final String outputPath = ".*\\\\target\\\\(test-){0,1}classes\\\\";
 
   String getValidClasspath(String filepath) {
-    return filepath.replaceFirst(outputPath, "");
+    //return filepath.replaceFirst(outputPath, "");
+    for (String path : outputPaths) {
+      if (filepath.startsWith(path)) {
+        return filepath.substring(path.length()+1);
+      }
+    }
+    return filepath;
   }
 
 
@@ -69,10 +77,9 @@ public class KoalaScanner {
     while (rootURLs.hasMoreElements()) {
       URL rootURL = rootURLs.nextElement();
       if ("file".equals(rootURL.getProtocol())) {
-        String rootFilePath = rootURL.getFile();
-        log.debug("查询到根路径 - {}", rootFilePath);
-
-        File dir = new File(rootFilePath);
+        File dir = new File(rootURL.getFile());
+        log.debug("查询到根路径 - {}", dir.getPath());
+        outputPaths.add(dir.getPath());
         scanDir(dir, classes);
       }
     }
@@ -94,7 +101,7 @@ public class KoalaScanner {
 
   public Optional<Class> scanClass(String path) {
     log.info("扫描到class - {}", path);
-    String classname = path.substring(0, path.length() - 6).replaceAll("\\\\",".");
+    String classname = path.substring(0, path.length() - 6).replaceAll("\\\\", ".");
     Class clazz;
     try {
       clazz = Class.forName(classname);

@@ -12,7 +12,7 @@ import org.junit.Test;
  * @author and777
  * @date 2018/1/5
  */
-public class KoalaScannerTests {
+public class KoalaScannerTest {
 
   /**
    * 通过classloader直接获取file会获取到全路径 ,使用正则替换掉classpath部分
@@ -35,6 +35,6 @@ public class KoalaScannerTests {
     assertFalse(Pattern.compile(KoalaScanner.outputPath).matcher(file).matches());
 
     assertEquals(file.replace(path, ""), "site\\koalazoo\\cutekoala\\bean\\KoalaWrapper$1.class");
-    assertEquals(scanner.getValidClasspath(path), file.replace(path, ""));
+    assertEquals(scanner.getValidClasspath(file), file.replace(path, ""));
   }
 }

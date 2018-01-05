@@ -1,6 +1,7 @@
 package site.koalazoo.cutekoala.core;
 
-import java.io.IOException;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author and777
@@ -8,12 +9,15 @@ import java.io.IOException;
  *
  * 扫描/生成/获取 Koala的工厂
  */
+@Slf4j
 public class KoalaFactory {
 
   private static final KoalaFactory FACTORY = new KoalaFactory();
 
-  public static KoalaFactory run(String classpath) throws IOException {
-    FACTORY.scanner.scanClasspath(classpath);
+  public static KoalaFactory run(Class target) {
+    List<Class> koalaClasses = FACTORY.scanner.scanClasspath(target);
+    log.info("搜索到{}个koala", koalaClasses.size());
+
     return FACTORY;
   }
 

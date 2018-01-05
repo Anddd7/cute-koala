@@ -1,14 +1,15 @@
-package site.koalazoo.cutekoala;
+package site.koalazoo.other;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
-import site.koalazoo.model.Hello;
-import site.koalazoo.model.HelloImpl;
-import site.koalazoo.model.IHello;
+import site.koalazoo.other.Hello;
+import site.koalazoo.other.HelloImpl;
+import site.koalazoo.other.IHello;
 
 /**
  * @author and777
@@ -35,13 +36,12 @@ public class OtherTests {
 
   /**
    * 通过CanonicalName查询类
-   * @throws ClassNotFoundException
    */
   @Test
   public void classForName() throws ClassNotFoundException {
-    assertEquals(Hello.World.class, Class.forName("site.koalazoo.model.Hello$World"));
+    assertEquals(Hello.World.class, Class.forName("site.koalazoo.other.Hello$World"));
     try {
-      Class.forName("site.koalazoo.model.Hello.World");
+      Class.forName("site.koalazoo.other.Hello.World");
     } catch (ClassNotFoundException e) {
       assertTrue(e != null);
     }

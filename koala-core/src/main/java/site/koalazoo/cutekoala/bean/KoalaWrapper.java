@@ -1,7 +1,7 @@
 package site.koalazoo.cutekoala.bean;
 
 import lombok.AllArgsConstructor;
-import site.koalazoo.cutekoala.core.BeanType;
+import site.koalazoo.cutekoala.common.KoalaType;
 import site.koalazoo.cutekoala.rpc.RemoteKoalaFactory;
 
 /**
@@ -11,27 +11,27 @@ import site.koalazoo.cutekoala.rpc.RemoteKoalaFactory;
  * Bean包装器
  */
 @AllArgsConstructor
-public class Koala {
+public class KoalaWrapper {
 
   String align;
-  BeanType type;
+  KoalaType type;
   Class clazz;
   Object object;
 
-  public static Koala createKoala(BeanType type, Class clazz) {
+  public static KoalaWrapper createKoala(KoalaType type, Class clazz) {
     return createKoala(type, clazz);
   }
 
-  public static Koala createKoala(String align, BeanType type, Class clazz)
+  public static KoalaWrapper createKoala(String align, KoalaType type, Class clazz)
       throws IllegalAccessException, InstantiationException {
     switch (type) {
       case Singleton:
       case Consumer:
-        return new Koala(align, type, clazz, clazz.newInstance());
+        return new KoalaWrapper(align, type, clazz, clazz.newInstance());
       case Multiple:
-        return new Koala(align, type, clazz, null);
+        return new KoalaWrapper(align, type, clazz, null);
       case Provider:
-        return new Koala(align, type, clazz, RemoteKoalaFactory.getRemoteHandler(clazz));
+        return new KoalaWrapper(align, type, clazz, RemoteKoalaFactory.getRemoteHandler(clazz));
       default:
         return null;
     }

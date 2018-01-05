@@ -12,13 +12,13 @@ import java.util.Map;
  */
 public class KoalaPool {
 
-  Map<String, Koala> classname2Koala = new HashMap<>();
+  Map<String, KoalaWrapper> classname2Koala = new HashMap<>();
 
   public void containsKoala(String classname) {
     Preconditions.checkArgument(!classname2Koala.containsKey(classname), "已存在Koala-%s", classname);
   }
 
-  public void addKoala(String classname, Koala koala) {
+  public void addKoala(String classname, KoalaWrapper koala) {
     classname2Koala.put(classname, koala);
   }
 

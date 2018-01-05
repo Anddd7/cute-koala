@@ -1,4 +1,4 @@
-package site.koalazoo.cutekoala.core;
+package site.koalazoo.cutekoala.common;
 
 /**
  * @author and777
@@ -6,6 +6,6 @@ package site.koalazoo.cutekoala.core;
  *
  * Bean类型
  */
-public enum BeanType {
+public enum KoalaType {
   Singleton, Provider, Consumer, Multiple;
 }

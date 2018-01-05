@@ -1,9 +1,13 @@
 package site.koalazoo.cutekoala.core;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
 import java.io.IOException;
-import org.junit.Assert;
+import java.util.regex.Pattern;
 import org.junit.Test;
-import site.koalazoo.cutekoala.bean.KoalaPool;
 
 /**
  * @author and777
@@ -13,6 +17,8 @@ public class KoalaFactoryTests {
 
   @Test
   public void scanClasses() throws IOException {
-    KoalaFactory factory = KoalaFactory.run("");
+   KoalaFactory.run(KoalaFactoryTests.class);
   }
+
+
 }

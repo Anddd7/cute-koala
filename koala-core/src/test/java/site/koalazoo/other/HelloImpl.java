@@ -1,4 +1,4 @@
-package site.koalazoo.model;
+package site.koalazoo.other;
 
 /**
  * @author and777

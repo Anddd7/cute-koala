@@ -2,10 +2,9 @@ language: java
 sudo: false
 script: mvn clean verify
 after_success:
-  - mvn clean test
-  - mvn jacoco:report
+  - mvn cobertura:cobertura
   - mvn coveralls:report -DrepoToken="${COVERALLS_TOKEN}"
-
+  - mvn clean
 env:
   global:
     - secure: "jY8x9gksB4IC6SzsgjHnto2QlCwsZGb8F9HyIE1LUg2fgFk0DEvU/rG69E9pZOzfarvOvalf2qhSCZ9iuJ5r12h16iahTUgSCJUDIsC+40jqwwrbKWGOVQJB3CdMjaJ/m6IXBF/bA56H1OXUTKMuTH9DYLTkUFxRsG9t+LZVjBkS8oVlA51htn7+QBX/ZY06gZQnZXqhZrPct1y6umkZjwC1kXeQPKRq3vfUfKPIzySP9plMvy98wGtwdw8fPY4dsC6XxvINvB6gw9MLHULIfckoLJbsojYWtlnYlTQ7MOwJR3/KJLnRjxzx5ipg327Xcsi2gzUH5LmMY4K14w57xlgzAb582PniguLQC7rkL18uqQpbsAJ2osdlqW57RnDMog5pc+/IYpxI3/Kyo5mrujy7n4NzpeQeFuE2jQyHBFyvVvJqDyuwa949mmOk/iSY38aiwFs46iUICAC9bJUS6tj8C3gK+vS3kE2tnnS9ZrMi2FX6Q/G8mtAL32UEl+agfZFb2ZCU2kKJ5xPnGiJLWltzOFBev4rKPCyRCyW5M="

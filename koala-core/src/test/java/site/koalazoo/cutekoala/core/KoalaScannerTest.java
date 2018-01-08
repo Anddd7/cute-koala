@@ -3,7 +3,6 @@ package site.koalazoo.cutekoala.core;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
@@ -36,24 +35,26 @@ public class KoalaScannerTest {
   @Test
   public void scanClass() {
     Assert
-        .assertEquals(scanner.scanClass("site\\koalazoo\\cutekoala\\model\\HelloServiceImpl").get(),
+        .assertEquals(scanner.scanClass("site/koalazoo/cutekoala/model/HelloServiceImpl").get(),
             HelloServiceImpl.class);
-    Assert.assertEquals(scanner.scanClass("site\\koalazoo\\other\\OtherTests").isPresent(), false);
+    Assert.assertEquals(scanner.scanClass("site/koalazoo/other/OtherTests").isPresent(), false);
   }
 
   @Test
   public void scanDir() {
-    String prefix = "D:\\IDEASpace\\koalaman-core\\koala-core\\target\\test-classes";
+    String dir = System.getProperty("user.dir").replaceAll("\\\\", "/");
+    String prefix = dir + "/target/test-classes";
+    String filePath = prefix + "/site/koalazoo/cutekoala/model";
+
     List<Class> classes = new ArrayList<>();
-    scanner
-        .scanDir(prefix.length(), new File(prefix + "\\site\\koalazoo\\cutekoala\\model"), classes);
+    scanner.scanDir(prefix.length(), new File(filePath), classes);
     assertTrue(classes.contains(SayServiceImpl.class));
   }
 
   /**
-   * 见koala-test#JarTest.scanJar
+   * 见koala-test#ToolsTest.scanJar
    */
-  @Test
-  public void scanJar() throws IOException {
-  }
+//  @Test
+//  public void scanJar() throws IOException {
+//  }
 }

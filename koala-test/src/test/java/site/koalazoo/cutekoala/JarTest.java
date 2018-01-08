@@ -19,10 +19,10 @@ public class JarTest {
    */
   @Test
   public void scanJar() throws IOException {
-    String dir = System.getProperty("user.dir");
+    String dir = System.getProperty("user.dir").replaceAll("\\\\", "/");
     KoalaScanner scanner = new KoalaScanner();
     URL jarUrl = new URL(
-        "jar:file:/" + dir.replaceAll("\\\\", "/") + "/outJars/koala-test-0.1.0.jar!/");
+        "jar:file:/" + dir + "/outJars/koala-test-0.1.0.jar!/");
     List<Class> classes = scanner.scanJar(jarUrl);
     assertEquals(2, classes.size());
   }

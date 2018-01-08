@@ -20,7 +20,7 @@ public class JarTest {
   @Test
   public void scanJar() throws IOException {
     String dir = System.getProperty("user.dir").replaceAll("\\\\", "/");
-    if('/' == dir.indexOf(0)){
+    if('/' == dir.charAt(0)){
       dir = dir.substring(1);
     }
     KoalaScanner scanner = new KoalaScanner();

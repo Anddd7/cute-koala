@@ -12,33 +12,4 @@
   <artifactId>koala-tool</artifactId>
   <packaging>jar</packaging>
 
-  <dependencies>
-    <dependency>
-      <groupId>site.koalazoo.cutekoala</groupId>
-      <artifactId>koala-core</artifactId>
-      <version>0.1.0</version>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>site.koalazoo.cutekoala.Main</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 </project>

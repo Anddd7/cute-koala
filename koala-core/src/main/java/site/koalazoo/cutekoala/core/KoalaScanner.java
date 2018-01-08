@@ -23,25 +23,20 @@ import site.koalazoo.cutekoala.common.KoalaException;
 @Slf4j
 public class KoalaScanner {
 
-  public static final List<String> outputPaths = new ArrayList<>();
+  private static final String FILE_PROTOCOL = "file";
+  private static final String JAR_PROTOCOL = "jar";
 
-  public static final String outputPath = ".*\\\\target\\\\(test-){0,1}classes\\\\";
+  private static final String CLASS_SUFFIX = ".class";
 
-  String getValidClasspath(String filepath) {
-    //return filepath.replaceFirst(outputPath, "");
-    for (String path : outputPaths) {
-      if (filepath.startsWith(path)) {
-        return filepath.substring(path.length()+1);
-      }
-    }
-    return filepath;
-  }
-
-
+  /**
+   * 通过入口class判断目标代码是否打包成jar
+   *
+   * @param target 入口class
+   */
   public List<Class> scanClasspath(Class target) {
     try {
-      URL url = target.getResource(target.getSimpleName() + ".class");
-      if ("jar".equals(url.getProtocol())) {
+      URL url = target.getResource(target.getSimpleName() + CLASS_SUFFIX);
+      if (JAR_PROTOCOL.equals(url.getProtocol())) {
         return scanJar(url);
       } else {
         return scanOutput(target);
@@ -51,57 +46,85 @@ public class KoalaScanner {
     }
   }
 
+  /**
+   * 扫描jar中的class文件
+   *
+   * @param url jar路径
+   */
   public List<Class> scanJar(URL url) throws IOException {
     List<Class> classes = new ArrayList<>();
 
-    log.info("已打包成jar");
+    log.info("已打包成jar - {}", url.toString());
     JarURLConnection con = (JarURLConnection) url.openConnection();
     JarFile archive = con.getJarFile();
     Enumeration<JarEntry> entries = archive.entries();
     while (entries.hasMoreElements()) {
       JarEntry entry = entries.nextElement();
-      String classname = entry.getName();
-      log.debug("查询到Jar中的文件 - {}", classname);
-      if (classname.endsWith(".class")) {
-        scanClass(classname).ifPresent(classes::add);
+      String classpath = entry.getName();
+      if (classpath.endsWith(CLASS_SUFFIX)) {
+        classpath = classpath.substring(0, classpath.length() - 6);
+        log.debug("查询到Jar中的class文件 - {}", classpath);
+        scanClass(classpath).ifPresent(classes::add);
       }
     }
 
     return classes;
   }
 
+  /**
+   * 扫描classpath下的文件，因为测试时classpath可能有多个根目录，后面的方法需要替换根路径class。forname
+   */
   public List<Class> scanOutput(Class target) throws IOException {
     List<Class> classes = new ArrayList<>();
 
     Enumeration<URL> rootURLs = target.getClassLoader().getResources("");
     while (rootURLs.hasMoreElements()) {
       URL rootURL = rootURLs.nextElement();
-      if ("file".equals(rootURL.getProtocol())) {
+      if (FILE_PROTOCOL.equals(rootURL.getProtocol())) {
         File dir = new File(rootURL.getFile());
-        log.debug("查询到根路径 - {}", dir.getPath());
-        outputPaths.add(dir.getPath());
-        scanDir(dir, classes);
+        String rootPath = dir.getPath();
+        log.debug("查询到根路径 - {}", rootPath);
+        scanDir(rootPath.length(), dir, classes);
       }
     }
 
     return classes;
   }
 
-
-  public void scanDir(File dir, List<Class> classes) {
+  /**
+   * 扫描classpath下的所有class文件
+   *
+   * @param prefixLength classpath根路径长度，用来截取字串
+   * @param dir          当前文件
+   * @param classes      经过筛选的的classes
+   */
+  public void scanDir(int prefixLength, File dir, List<Class> classes) {
     for (File child : dir.listFiles()) {
       if (child.isDirectory()) {
-        scanDir(child, classes);
-      } else if (child.getName().endsWith(".class")) {
-        String classpath = getValidClasspath(child.getPath());
-        scanClass(classpath).ifPresent(classes::add);
+        scanDir(prefixLength, child, classes);
+      } else if (child.getName().endsWith(CLASS_SUFFIX)) {
+        String filePath = child.getPath();
+        String classPath = filePath.substring(prefixLength + 1, filePath.length() - 6);
+        log.debug("查询到classpath中的class - {}", classPath);
+        scanClass(classPath).ifPresent(classes::add);
       }
     }
   }
 
+  /**
+   * 通过class路径获取class
+   *
+   * @param path class相对路径
+   */
   public Optional<Class> scanClass(String path) {
-    log.info("扫描到class - {}", path);
-    String classname = path.substring(0, path.length() - 6).replaceAll("\\\\", ".");
+    String classname;
+
+    if (path.indexOf('\\') > 0) {
+      classname = path.replaceAll("\\\\", ".");
+    } else {
+      classname = path.replaceAll("/", ".");
+    }
+
     Class clazz;
     try {
       clazz = Class.forName(classname);
@@ -115,6 +138,7 @@ public class KoalaScanner {
 
     Koala koalaMark = (Koala) clazz.getDeclaredAnnotation(Koala.class);
     if (koalaMark != null) {
+      log.debug("检测到koala - {}", classname);
       return Optional.of(clazz);
     }
 

@@ -1,12 +1,16 @@
 package site.koalazoo.cutekoala.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.util.regex.Pattern;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import site.koalazoo.cutekoala.model.HelloServiceImpl;
+import site.koalazoo.cutekoala.model.SayServiceImpl;
 
 /**
  * @author and777
@@ -14,27 +18,42 @@ import org.junit.Test;
  */
 public class KoalaScannerTest {
 
+  KoalaScanner scanner;
+
+  @Before
+  public void before() {
+    scanner = new KoalaScanner();
+  }
+
   /**
    * 通过classloader直接获取file会获取到全路径 ,使用正则替换掉classpath部分
    */
   @Test
-  public void classpathPattern() {
-    String path = "D:\\IDEASpace\\koalaman-core\\koala-core\\target\\classes\\";
-    String file = "D:\\IDEASpace\\koalaman-core\\koala-core\\target\\classes\\site\\koalazoo\\cutekoala\\bean\\KoalaWrapper$1.class";
+  public void scanClasspath() {
+    scanner.scanClasspath(KoalaScannerTest.class);
+  }
 
-    String outputPath = ".*\\" +
-        File.separator + "target\\" +
-        File.separator + "(test-){0,1}classes\\" +
-        File.separator;
-    KoalaScanner scanner = new KoalaScanner();
+  @Test
+  public void scanClass() {
+    Assert
+        .assertEquals(scanner.scanClass("site\\koalazoo\\cutekoala\\model\\HelloServiceImpl").get(),
+            HelloServiceImpl.class);
+    Assert.assertEquals(scanner.scanClass("site\\koalazoo\\other\\OtherTests").isPresent(), false);
+  }
 
-    assertTrue(Pattern.compile(outputPath).matcher(path).matches());
-    assertTrue(Pattern.compile(KoalaScanner.outputPath).matcher(path).matches());
+  @Test
+  public void scanDir() {
+    String prefix = "D:\\IDEASpace\\koalaman-core\\koala-core\\target\\test-classes";
+    List<Class> classes = new ArrayList<>();
+    scanner
+        .scanDir(prefix.length(), new File(prefix + "\\site\\koalazoo\\cutekoala\\model"), classes);
+    assertTrue(classes.contains(SayServiceImpl.class));
+  }
 
-    assertFalse(Pattern.compile(outputPath).matcher(file).matches());
-    assertFalse(Pattern.compile(KoalaScanner.outputPath).matcher(file).matches());
-
-    assertEquals(file.replace(path, ""), "site\\koalazoo\\cutekoala\\bean\\KoalaWrapper$1.class");
-    assertEquals(scanner.getValidClasspath(file), file.replace(path, ""));
+  /**
+   * 见koala-test#JarTest.scanJar
+   */
+  @Test
+  public void scanJar() throws IOException {
   }
 }

@@ -50,6 +50,7 @@
   <modules>
     <module>koala-core</module>
     <module>koala-tool</module>
+    <module>koala-test</module>
   </modules>
 
   <properties>

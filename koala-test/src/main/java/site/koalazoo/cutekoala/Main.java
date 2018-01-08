@@ -1,6 +1,7 @@
 package site.koalazoo.cutekoala;
 
 import java.io.IOException;
+import site.koalazoo.cutekoala.core.KoalaFactory;
 
 /**
  * @author and777
@@ -11,5 +12,6 @@ import java.io.IOException;
 public class Main {
 
   public static void main(String[] args) throws IOException {
+    KoalaFactory.run(Main.class);
   }
 }

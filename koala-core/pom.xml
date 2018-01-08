@@ -13,6 +13,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>site.koalazoo.cutekoala</groupId>
+      <artifactId>koala-tool</artifactId>
+      <version>0.1.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>

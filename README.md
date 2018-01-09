@@ -4,7 +4,20 @@
 
 仿`Spring/ Spring-mvc/ Mybatis/ Dubbo`的框架 ,主要用来研究和学习各大框架原理.
 
-## 20180109 注册/依赖处理/获取/使用
+## 20180109 路径工具类/注册/依赖处理/获取/使用
+编写了一个路径工具类
+* 统一使用'/'作为分隔符
+* 通过链式方法切换路径
+* 通过方法获取File和URL
+```java
+FilePath prefix = FilePath.of(MODULE_DIR).child("target", "test-classes");
+//prefix.path = $MODULE_PATH/target/test-classes
+FilePath filePath = prefix.child("site", "koalazoo", "cutekoala", "model");
+//prefix.path = $MODULE_PATH/target/test-classes/site/koalazoo/cutekoala/model
+File file = fielPath.getFile();
+```
+
+
 积累了上个版本的经验 ,这次很快就完成了
 * 检查是否有已加入的Koala ,冲突则报错退出
 * 创建对象

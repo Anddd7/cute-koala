@@ -50,7 +50,7 @@ public class PathTool {
    */
   public String getParent(String path) {
     int indexOfLastSeperator = path.lastIndexOf('/');
-    boolean isWindowsRoot = IS_WINDOWS && path.indexOf(':') == indexOfLastSeperator - 1;
+    boolean isWindowsRoot = path.indexOf(':') == indexOfLastSeperator - 1;
     boolean isUnixRoot = indexOfLastSeperator == 0;
     if (isWindowsRoot || isUnixRoot) {
       return path;

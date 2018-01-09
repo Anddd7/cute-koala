@@ -14,8 +14,7 @@ import site.koalazoo.cutekoala.core.KoalaScanner;
  */
 public class JarTest {
 
-  private static final String MODULE_DIR = System.getProperty("user.dir").replaceAll("\\\\", "/");
-
+  private static final String MODULE_DIR = PathTool.getProjectPath();
 
   /**
    * 测试是否能检测到Jar中的koala ,并forName成功

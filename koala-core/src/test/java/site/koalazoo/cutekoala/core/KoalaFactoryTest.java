@@ -17,6 +17,4 @@ public class KoalaFactoryTest {
   public void scanClasses() throws IOException {
    KoalaFactory.run(KoalaFactoryTest.class);
   }
-
-
 }

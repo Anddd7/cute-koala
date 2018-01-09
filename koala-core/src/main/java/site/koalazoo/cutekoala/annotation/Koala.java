@@ -18,5 +18,7 @@ import site.koalazoo.cutekoala.common.KoalaType;
 @Target(ElementType.TYPE)
 public @interface Koala {
 
+  String align() default "";
+
   KoalaType type() default KoalaType.Singleton;
 }

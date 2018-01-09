@@ -10,4 +10,9 @@ public class HelloService2Impl implements HelloService {
   public void sayHello() {
     System.out.println("Hello");
   }
+
+  @Override
+  public SayService getSayService() {
+    return null;
+  }
 }

@@ -7,7 +7,11 @@ package site.koalazoo.cutekoala.common;
 public class KoalaException extends RuntimeException {
 
   public KoalaException(String message) {
-    super(message);
+    this(message, null);
+  }
+
+  public KoalaException(Throwable cause) {
+    this("", cause);
   }
 
   public KoalaException(String message, Throwable cause) {
@@ -23,11 +27,11 @@ public class KoalaException extends RuntimeException {
     return new KoalaException("入口类无效或classpath有误", cause);
   }
 
-  public static KoalaException repeat(String name, Class existClass, Class newClass) {
+  public static KoalaException createError(String align, KoalaType type, Class newClass) {
     return new KoalaException(
-        String.format("Koala名称冲突:%s - %s | %s",
-            name,
-            existClass.toGenericString(),
+        String.format("Koala创建失败:%s - %s | %s",
+            align,
+            type,
             newClass.toGenericString())
     );
   }

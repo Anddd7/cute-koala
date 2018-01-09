@@ -14,18 +14,17 @@ import site.koalazoo.cutekoala.core.KoalaScanner;
  */
 public class JarTest {
 
+  private static final String MODULE_DIR = System.getProperty("user.dir").replaceAll("\\\\", "/");
+
+
   /**
-   * 需要用打包后的Jar测试
+   * 测试是否能检测到Jar中的koala ,并forName成功
    */
   @Test
   public void scanJar() throws IOException {
-    String dir = System.getProperty("user.dir").replaceAll("\\\\", "/");
-    if('/' == dir.charAt(0)){
-      dir = dir.substring(1);
-    }
+    String dir = PathTool.getParent(MODULE_DIR) + "/outJars";
     KoalaScanner scanner = new KoalaScanner();
-    URL jarUrl = new URL(
-        "jar:file:/" + dir + "/outJars/koala-test-0.1.0.jar!/");
+    URL jarUrl = PathTool.getURL4Jar(dir, "koala-test-0.1.0.jar");
     List<Class> classes = scanner.scanJar(jarUrl);
     assertEquals(2, classes.size());
   }

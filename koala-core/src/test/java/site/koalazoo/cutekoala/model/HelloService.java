@@ -5,5 +5,8 @@ package site.koalazoo.cutekoala.model;
  * @date 2018/1/5
  */
 public interface HelloService {
+
   void sayHello();
+
+  SayService getSayService();
 }

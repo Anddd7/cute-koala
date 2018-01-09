@@ -4,6 +4,114 @@
 
 仿`Spring/ Spring-mvc/ Mybatis/ Dubbo`的框架 ,主要用来研究和学习各大框架原理.
 
+## 20180109 注册/依赖处理/获取/使用
+积累了上个版本的经验 ,这次很快就完成了
+* 检查是否有已加入的Koala ,冲突则报错退出
+* 创建对象
+  * 后续通过在annotation中指定一些handler对Koala进行前置处理(构造函数/参数/方法)
+* 前置检查 ,检查当前koala内是否有需要import的对象
+  * 扫描带@KoalaImport注解的fields
+  * 根据类型查询koala缓存
+    * 已有koala: 注入到当前koala的field中 (如果是multiple类型的 ,先实例化)
+    * 没有koala: 创建callback缓存 ,等带目标koala加载
+* 后置检查 ,检查当前koala是否被其他对象import
+  * 检查callback列表 ,找出与当前koala相关的
+  * 调用回调进行注入
+  * 放入koala缓存
+  
+对比上个版本:
+* 处理过程中不设置泛型(没有意义) ,只在获取koala时使用泛型强转
+* 注册koala后 ,使用此对象的class/interface都能访问到此对象
+* 设置别名align进行快速访问和远程调用
+
+> A 依赖 B(multi) ,B 依赖 C : 假设B已经注册为Koala ,此时A进行前置 ,需要注入B .因为B是Multi类型 ,所以会即时创建实例 ;同时因为B也依赖了C ,所以B也要进行前置检查 .但C此时还未注册 ,所以会形成A=B=C的链式依赖.
+* 使用递归处理multiple类型的koala的创建和依赖处理
+* 使用函数回调进行依赖关系的解决 ,减少了代码复杂度
+
+* A依赖B
+* 取koala-B ,multi类型
+  * 实例化对象B
+  * 检测B依赖C
+    * C未加载 ,存入callback
+  * B实例化完成
+* A注入B完成
+* 注册C
+  * C存在被依赖的callback
+  * 执行回调 ,C写入到B的实例中
+  * C注册完成
+* 完成 - A{B{C}}
+
+```java
+    /**
+     * 检查并为object对象注入其他koala
+     */
+    public void importKoala(Class clazz, Object object) {
+      for (Field field : clazz.getDeclaredFields()) {
+        if (field.getAnnotation(KoalaImport.class) == null) {
+          continue;
+        }
+        Class targetClass = field.getType();
+        if (pool.contains(targetClass)) {
+          KoalaWrapper targetKoala = pool.get(targetClass);
+          //获取对象实例
+          Object targetObject = targetKoala.object();
+          //multi类型的直接创建实例
+          if (targetKoala.type().equals(KoalaType.Multiple)) {
+            targetObject = createMultiKoala(targetKoala.clazz());
+          }
+          //设置属性
+          setVal4Field(field, object, targetObject);
+          log.debug("{} 的 {} 字段已经注入koala - {} - {}",
+              clazz, field.getName(), targetKoala.type(), targetKoala.clazz());
+        } else {
+          //使用函数回调进行依赖关系的解决 ,减少了代码复杂度
+          relyManager.addRely(targetClass,
+              targetObject -> setVal4Field(field, object, targetObject)
+          );
+          log.debug("{} 的 {} 字段等待注入 {}", clazz, field.getName(), targetClass);
+        }
+      }
+    }
+    
+    public Object createMultiKoala(Class multiKoalaClass) {
+      log.debug("正在创建Multiple Koala实例 - {}", multiKoalaClass);
+      try {
+        Object object = multiKoalaClass.newInstance();
+        //使用递归处理multiple类型的koala的创建和依赖处理
+        importKoala(multiKoalaClass, object);
+        return object;
+      } catch (Exception e) {
+        throw new KoalaException(e);
+      }
+    }
+
+```
+
+  
+```java
+public void addKoala(Class clazz) {
+    Class[] interfaces = clazz.getInterfaces();
+
+    //check
+    existKoalas(clazz);
+    existKoalas(interfaces);
+
+    //create
+    Koala annotation = (Koala) clazz.getAnnotation(Koala.class);
+    KoalaWrapper wrapper = KoalaWrapper.createKoala(annotation, clazz);
+
+    //precheck
+    precheck(wrapper);
+
+    //aftercheckThenInsert & aftercheck
+    aftercheckThenInsert(wrapper, clazz);
+    aftercheckThenInsert(wrapper, interfaces);
+    if (wrapper.hasAlign()) {
+      align2Koala.put(wrapper.align(), wrapper);
+    }
+  }
+```
+
 
 ## 20180108 路径扫描
 用于在classpath/Jar下扫描class和指定注解 ,为后续Bean的解析做准备

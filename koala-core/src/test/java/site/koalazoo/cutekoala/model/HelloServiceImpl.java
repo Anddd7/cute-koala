@@ -17,4 +17,9 @@ public class HelloServiceImpl implements HelloService {
   public void sayHello() {
     sayService.say("Hello");
   }
+
+  @Override
+  public SayService getSayService() {
+    return sayService;
+  }
 }

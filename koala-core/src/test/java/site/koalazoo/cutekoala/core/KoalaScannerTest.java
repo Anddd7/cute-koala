@@ -1,13 +1,17 @@
 package site.koalazoo.cutekoala.core;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import site.koalazoo.cutekoala.PathTool;
+import site.koalazoo.cutekoala.builder.FilePath;
 import site.koalazoo.cutekoala.model.HelloServiceImpl;
 import site.koalazoo.cutekoala.model.SayServiceImpl;
 
@@ -18,6 +22,7 @@ import site.koalazoo.cutekoala.model.SayServiceImpl;
 public class KoalaScannerTest {
 
   KoalaScanner scanner;
+  private static final String MODULE_DIR = PathTool.getProjectPath();
 
   @Before
   public void before() {
@@ -34,27 +39,30 @@ public class KoalaScannerTest {
 
   @Test
   public void scanClass() {
-    Assert
-        .assertEquals(scanner.scanClass("site/koalazoo/cutekoala/model/HelloServiceImpl").get(),
-            HelloServiceImpl.class);
+    Assert.assertEquals(
+        scanner.scanClass("site/koalazoo/cutekoala/model/HelloServiceImpl").get(),
+        HelloServiceImpl.class);
     Assert.assertEquals(scanner.scanClass("site/koalazoo/other/OtherTests").isPresent(), false);
   }
 
   @Test
   public void scanDir() {
-    String dir = System.getProperty("user.dir").replaceAll("\\\\", "/");
-    String prefix = dir + "/target/test-classes";
-    String filePath = prefix + "/site/koalazoo/cutekoala/model";
+    FilePath prefix = FilePath.of(MODULE_DIR).child("target", "test-classes");
+    FilePath filePath = prefix.child("site", "koalazoo", "cutekoala", "model");
 
     List<Class> classes = new ArrayList<>();
-    scanner.scanDir(prefix.length(), new File(filePath), classes);
+    scanner.scanDir(prefix.length(), filePath.getFile(), classes);
     assertTrue(classes.contains(SayServiceImpl.class));
   }
 
   /**
-   * 见koala-test#ToolsTest.scanJar
+   * 需要用打包后的Jar测试 ,把打包后的jar放到outJars
    */
-//  @Test
-//  public void scanJar() throws IOException {
-//  }
+  @Test
+  public void scanJar() throws IOException {
+    KoalaScanner scanner = new KoalaScanner();
+    URL jarUrl = FilePath.of(MODULE_DIR).parent("outJars").getURL4Jar("koala-core-0.1.0.jar");
+    List<Class> classes = scanner.scanJar(jarUrl);
+    assertEquals(0, classes.size());
+  }
 }

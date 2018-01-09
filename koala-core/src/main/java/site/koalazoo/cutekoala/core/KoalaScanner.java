@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import lombok.extern.slf4j.Slf4j;
+import site.koalazoo.cutekoala.PathTool;
 import site.koalazoo.cutekoala.annotation.Koala;
 import site.koalazoo.cutekoala.common.KoalaException;
 
@@ -59,10 +60,9 @@ public class KoalaScanner {
     JarFile archive = con.getJarFile();
     Enumeration<JarEntry> entries = archive.entries();
     while (entries.hasMoreElements()) {
-      JarEntry entry = entries.nextElement();
-      String classpath = entry.getName();
+      String classpath = entries.nextElement().getName();
       if (classpath.endsWith(CLASS_SUFFIX)) {
-        classpath = classpath.substring(0, classpath.length() - 6);
+        classpath = classpath.substring(0, CLASS_SUFFIX.length());
         log.debug("查询到Jar中的class文件 - {}", classpath);
         scanClass(classpath).ifPresent(classes::add);
       }
@@ -103,8 +103,7 @@ public class KoalaScanner {
       if (child.isDirectory()) {
         scanDir(prefixLength, child, classes);
       } else if (child.getName().endsWith(CLASS_SUFFIX)) {
-        String filePath = child.getPath();
-        String classPath = filePath.substring(prefixLength + 1, filePath.length() - 6);
+        String classPath = child.getPath().substring(prefixLength + 1, CLASS_SUFFIX.length());
         log.debug("查询到classpath中的class - {}", classPath);
         scanClass(classPath).ifPresent(classes::add);
       }
@@ -117,13 +116,7 @@ public class KoalaScanner {
    * @param path class相对路径
    */
   public Optional<Class> scanClass(String path) {
-    String classname;
-
-    if (path.indexOf('\\') > 0) {
-      classname = path.replaceAll("\\\\", ".");
-    } else {
-      classname = path.replaceAll("/", ".");
-    }
+    String classname = PathTool.convert2ClassPath(path);
 
     Class clazz;
     try {

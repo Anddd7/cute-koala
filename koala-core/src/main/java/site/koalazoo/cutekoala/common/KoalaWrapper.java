@@ -6,7 +6,6 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
 import site.koalazoo.cutekoala.annotation.Koala;
-import site.koalazoo.cutekoala.rpc.RemoteKoalaFactory;
 
 /**
  * @author and777
@@ -37,7 +36,6 @@ public class KoalaWrapper {
   public static KoalaWrapper createKoala(String align, KoalaType type, Class clazz) {
     switch (type) {
       case Singleton:
-      case Consumer:
         try {
           return new KoalaWrapper(align, type, clazz, clazz.newInstance());
         } catch (Exception e) {
@@ -46,8 +44,6 @@ public class KoalaWrapper {
         }
       case Multiple:
         return new KoalaWrapper(align, type, clazz, null);
-      case Provider:
-        return new KoalaWrapper(align, type, clazz, RemoteKoalaFactory.getRemoteHandler(clazz));
       default:
         return null;
     }

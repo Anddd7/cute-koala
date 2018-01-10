@@ -14,6 +14,7 @@ import site.koalazoo.cutekoala.annotation.KoalaImport;
 import site.koalazoo.cutekoala.common.KoalaException;
 import site.koalazoo.cutekoala.common.KoalaType;
 import site.koalazoo.cutekoala.common.KoalaWrapper;
+import site.koalazoo.cutekoala.rpc.RemoteKoalaFactory;
 
 /**
  * @author and777
@@ -48,6 +49,10 @@ public class KoalaManager {
      */
     public boolean contains(Class clazz) {
       return cache.containsKey(keySerilizer(clazz));
+    }
+
+    public KoalaWrapper get(String key) {
+      return cache.get(key);
     }
 
     public KoalaWrapper get(Class clazz) {
@@ -89,14 +94,22 @@ public class KoalaManager {
    * @param <T>   泛型
    */
   public <T> T getKoala(Class<T> clazz) {
-    KoalaWrapper current = pool.get(clazz);
+    return (T) getKoala(pool.keySerilizer(clazz));
+  }
+
+  public Object getKoala(String name) {
+    KoalaWrapper current;
+    if (name.contains(".")) {
+      current = pool.get(name);
+    } else {
+      current = align2Koala.get(name);
+    }
     Object object = current.object();
     if (current.isMultiple()) {
       object = createMultiKoala(current.clazz());
     }
-    return (T) object;
+    return object;
   }
-
 
   /**
    * 添加koala
@@ -115,12 +128,13 @@ public class KoalaManager {
     //precheck
     precheck(wrapper);
 
-    //aftercheckThenInsert & aftercheck
+    //aftercheckThenInsert : aftercheck/insert/publish
     aftercheckThenInsert(wrapper, clazz);
     aftercheckThenInsert(wrapper, interfaces);
     if (wrapper.hasAlign()) {
       align2Koala.put(wrapper.align(), wrapper);
     }
+    log.info("koala - {}注册完毕", clazz);
   }
 
   /**
@@ -150,6 +164,8 @@ public class KoalaManager {
       }
       //insert
       pool.put(clazz, current);
+      //publish
+      RemoteKoalaFactory.publish(clazz);
     }
   }
 
@@ -171,7 +187,8 @@ public class KoalaManager {
    */
   public void importKoala(Class clazz, Object object) {
     for (Field field : clazz.getDeclaredFields()) {
-      if (field.getAnnotation(KoalaImport.class) == null) {
+      KoalaImport koalaImport = field.getAnnotation(KoalaImport.class);
+      if (koalaImport == null) {
         continue;
       }
       Class targetClass = field.getType();

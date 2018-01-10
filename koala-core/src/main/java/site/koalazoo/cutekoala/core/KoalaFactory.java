@@ -3,6 +3,7 @@ package site.koalazoo.cutekoala.core;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import site.koalazoo.cutekoala.bean.KoalaManager;
+import site.koalazoo.cutekoala.rpc.RemoteKoalaFactory;
 
 /**
  * @author and777
@@ -20,6 +21,15 @@ public class KoalaFactory {
     return FACTORY;
   }
 
+  public static <T> T getKoala(Class<T> clazz) {
+    return FACTORY.pool.getKoala(clazz);
+  }
+
+  public static Object getKoala(String name) {
+    return FACTORY.pool.getKoala(name);
+  }
+  /*----------------------------------------------------------------------------------------------*/
+
   /**
    * koala扫描器
    */
@@ -29,12 +39,14 @@ public class KoalaFactory {
    */
   private KoalaManager pool = new KoalaManager();
 
+  /**
+   * 初始化
+   */
+  private void init(Class target) {
+    RemoteKoalaFactory.run(target);
 
-  public void init(Class target) {
     List<Class> koalaClasses = scanner.scanClasspath(target);
     log.info("搜索到{}个koala", koalaClasses.size());
     koalaClasses.forEach(pool::addKoala);
   }
-
-
 }

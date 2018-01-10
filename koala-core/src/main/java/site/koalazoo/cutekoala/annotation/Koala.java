@@ -21,4 +21,10 @@ public @interface Koala {
   String align() default "";
 
   KoalaType type() default KoalaType.Singleton;
+
+  /**
+   * 发布成远程服务
+   */
+  boolean isProvider() default false;
+
 }

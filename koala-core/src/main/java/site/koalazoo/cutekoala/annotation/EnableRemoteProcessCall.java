@@ -8,23 +8,17 @@ import java.lang.annotation.Target;
 
 /**
  * @author and777
- * @date 2018/1/5
+ * @date 2018/1/10
  *
- * 表示需要注入的属性
+ * 开启远程调用注册
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface KoalaImport {
+@Target(ElementType.TYPE)
+public @interface EnableRemoteProcessCall {
 
   /**
-   * 是否依赖远程的koala
+   * Zookeeper注册中心地址
    */
-  boolean isConsumer() default false;
-
-  /**
-   * 优先使用远程的bean
-   */
-  boolean useRemoteFirst() default false;
-
+  String[] url();
 }

@@ -131,8 +131,7 @@ public class KoalaScanner {
       }
     }
 
-    Koala koalaMark = (Koala) clazz.getDeclaredAnnotation(Koala.class);
-    if (koalaMark != null) {
+    if (clazz.isAnnotationPresent(Koala.class)) {
       log.debug("检测到koala - {}", classname);
       return Optional.of(clazz);
     }

@@ -21,7 +21,7 @@ import site.koalazoo.cutekoala.PathTool;
 @Accessors(chain = true, fluent = true)
 public class FilePath {
 
-  String path;
+  private final String path;
 
   public static FilePath of(String path) {
     return new FilePath(PathTool.replaceWindowsSeperator(path));

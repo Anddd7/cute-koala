@@ -4,6 +4,19 @@
 
 仿`Spring/ Spring-mvc/ Mybatis/ Dubbo`的框架 ,主要用来研究和学习各大框架原理.
 
+## 20180110 fix 路径bug/准备RPC
+* FilePath的path改为final字段 ,切换路径(parent/child)会返回一个新的对象
+```java
+  private final String path;
+  
+  public FilePath parent() {
+    return new FilePath(PathTool.getParent(path()));
+  }
+```
+* 增加RPC需要的参数和注解
+
+
+
 ## 20180109 路径工具类/注册/依赖处理/获取/使用
 编写了一个路径工具类
 * 统一使用'/'作为分隔符

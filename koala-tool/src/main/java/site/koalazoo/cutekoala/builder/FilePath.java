@@ -24,15 +24,18 @@ public class FilePath {
   String path;
 
   public static FilePath of(String path) {
-    return new FilePath(PathTool.convert2LinuxPath(path));
+    return new FilePath(PathTool.replaceWindowsSeperator(path));
   }
 
   public int length() {
     return path.length();
   }
 
+  /**
+   * 切换路径 ,返回新路径的对象
+   */
   public FilePath parent() {
-    return path(PathTool.getParent(path()));
+    return new FilePath(PathTool.getParent(path()));
   }
 
   public FilePath parent(String... childs) {
@@ -40,7 +43,7 @@ public class FilePath {
   }
 
   public FilePath child(String... childs) {
-    return path(PathTool.getChild(path(), childs));
+    return new FilePath(PathTool.getChild(path(), childs));
   }
 
   public URL getURL4Jar(String jarName) throws MalformedURLException {
@@ -50,4 +53,5 @@ public class FilePath {
   public File getFile() {
     return new File(path);
   }
+
 }

@@ -27,4 +27,12 @@ public class ToolsTest {
     Assert.assertEquals(PathTool.getParent("D:/"), "D:/");
     Assert.assertEquals(PathTool.getParent("/home"), "/home");
   }
+
+  @Test
+  public void stringTool() {
+    String rootPath = "D:\\IDEASpace\\koalaman-core\\koala-tool\\target\\classes\\";
+    String s = rootPath + "site\\koalazoo\\cutekoala\\Main.class";
+    Assert.assertEquals(StringTool.cutstring(s, rootPath.length(), ".class".length()),
+        "site\\koalazoo\\cutekoala\\Main");
+  }
 }

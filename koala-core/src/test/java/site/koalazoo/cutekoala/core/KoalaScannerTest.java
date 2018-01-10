@@ -61,7 +61,7 @@ public class KoalaScannerTest {
   @Test
   public void scanJar() throws IOException {
     KoalaScanner scanner = new KoalaScanner();
-    URL jarUrl = FilePath.of(MODULE_DIR).parent("outJars").getURL4Jar("koala-core-0.1.0.jar");
+    URL jarUrl = FilePath.of(MODULE_DIR).parent("outJars").getURL4Jar("koala-tool-0.1.0.jar");
     List<Class> classes = scanner.scanJar(jarUrl);
     assertEquals(0, classes.size());
   }
